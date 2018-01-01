@@ -1,0 +1,170 @@
+//extends ../layout.jade
+//block contenido
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title VideoCamara
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='Pagina de inico al servidor')
+    meta(name='keywords', content='Video Vigilanacia')
+    meta(name='author', content='Manuel y Diego ')
+    // Facebook and Twitter integration
+    meta(property='og:title', content='')
+    meta(property='og:image', content='')
+    meta(property='og:url', content='')
+    meta(property='og:site_name', content='')
+    meta(property='og:description', content='')
+    meta(name='twitter:title', content='')
+    meta(name='twitter:image', content='')
+    meta(name='twitter:url', content='')
+    meta(name='twitter:card', content='')
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,700', rel='stylesheet')
+    // Animate.css
+    link(rel='stylesheet', href='css/animate.css')
+    // Icomoon Icon Fonts
+    link(rel='stylesheet', href='css/icomoon.css')
+    // Themify Icons
+    link(rel='stylesheet', href='css/themify-icons.css')
+    // Bootstrap
+    link(rel='stylesheet', href='css/bootstrap.css')
+    // Magnific Popup
+    link(rel='stylesheet', href='css/magnific-popup.css')
+    // Owl Carousel
+    link(rel='stylesheet', href='css/owl.carousel.min.css')
+    link(rel='stylesheet', href='css/owl.theme.default.min.css')
+    // Theme style
+    link(rel='stylesheet', href='css/style.css')
+    // Modernizr JS
+    script(src='js/modernizr-2.6.2.min.js')    
+    script(src='/socket.io/socket.io.js')
+    // FOR IE9 below
+    //
+      if lt IE 9script(src='js/respond.min.js')
+  body
+    .gtco-loader
+    #page
+      .page-inner
+        nav.gtco-nav(role='navigation')
+          .gtco-container
+            .row
+              .col-sm-6.col-xs-12
+                #gtco-logo
+                  img.img-responsive(src='images/Logotipo11.png')
+              .col-xs-6.text-right.menu-1
+                ul
+                  li
+                    a(href='/userapp') Inicio
+                  li.has-dropdown
+                    a(href='/userapp/redescamaras') Mis Redes de Cámaras
+                    ul.dropdown
+                        li
+                            a(href="/userapp/solicitud/new") Unirse a Red 
+                  
+                  li.has-dropdown
+                    a(href='/userapp/redescamaras/new') Crear Red de Cámaras
+                    ul.dropdown
+                        li 
+                            a(href="/userapp/solicitud") Mis Solicitudes 
+                        li 
+                            a(href="/userapp/redescamaras") Solicitudes Recibidas      
+
+                  li
+                    a(href='/userapp/redescamaras/vercam') Ver Cámaras 
+                
+               
+        header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(images/img_6.jpg)')
+          .overlay
+          .gtco-container
+            .row
+              .col-md-12.col-md-offset-0.text-left
+                .row.row-mt-15em
+                  .col-md-7.mt-text.animate-box(data-animate-effect='fadeInUp')
+                    span.intro-text-small #{user.correo}
+                    h1 Bienvenido #{user.nombre} #{user.apellidopaterno} 
+        .gtco-section.border-bottom
+          .gtco-container
+            .row
+              .col-md-8.col-md-offset-2.text-center.gtco-heading
+                h2 Seleccione la acción que desea realizar
+            .row
+              .col-md-3
+                .price-box
+                  .feature-center.animate-box(data-animate-effect='fadeIn')
+                    span.icon
+                      i.ti-direction-alt
+                    h3 Crear Red De Camaras
+                    p  Puedes crear una red de camaras para tu localidad 
+                  hr
+                  a.btn.btn-default.btn-sm(href='/userapp/redescamaras/new') Mostrar
+              .col-md-3
+                .price-box
+                  .feature-center.animate-box(data-animate-effect='fadeIn')
+                    span.icon
+                      i.ti-world
+                    h3 Unirte a Red de Camaras 
+                    p  Unete a una Red de Camara Exitente
+                  hr
+                  a.btn.btn-default.btn-sm(href='/userapp/solicitud/new') Mostrar
+              .col-md-3
+                .price-box
+                  .feature-center.animate-box(data-animate-effect='fadeIn')
+                    span.icon
+                      i.ti-layers-alt
+                    h3 Ver cámaras en vivo 
+                    p  Ver por Streaming todas la cámaras que estén en linea 
+                  hr
+                  a.btn.btn-default.btn-sm(href='/userapp/redescamaras/vercam') Mostrar
+              .col-md-3
+                .price-box
+                  .feature-center.animate-box(data-animate-effect='fadeIn')
+                    span.icon
+                      i.ti-comments
+                    h3 Ver Notificaciones
+                    p  Ver Notificaciones y emitir Notificaciones a vecinos 
+                  hr
+                  a.btn.btn-default.btn-sm(href='/userapp/notificaciones') Mostrar
+            
+                
+        footer#gtco-footer(role='contentinfo')
+          .gtco-container
+            .row.row-p.b-md
+              .col-md-8
+                .gtco-widget
+                  h3(align='center') Acerca del Trabajo Terminal 
+                  p(align='center')
+                    | Esta es una aplicación dedicada al monitoreo de cámaras IP dentro de una comunidad o rango geográfico delimitado, en donde en esta página usted podrá registrar su cámara y permanecer dentro de una comunidad de usuarios permitiéndole  a usted ver cámaras de otros usuarios
+              .col-md-4
+                .gtco-widget
+                  h3 Comuníquese con el administrador
+                  ul.gtco-quick-contact
+                    li
+                      a(href='#')
+                        i.icon-mail2
+                        |  mambrizb1200@alumno.ipn.mx
+                    li
+                      a(href='#')
+                        i.icon-mail
+                        |  diego4ng@hotmail.com
+        .gototop.js-top
+          a.js-gotop(href='#')
+            i.icon-arrow-up
+        // jQuery
+        script(src='js/jquery.min.js')
+        // jQuery Easing
+        script(src='js/jquery.easing.1.3.js')
+        // Bootstrap
+        script(src='js/bootstrap.min.js')
+        // Waypoints
+        script(src='js/jquery.waypoints.min.js')
+        // Carousel
+        script(src='js/owl.carousel.min.js')
+        // countTo
+        script(src='js/jquery.countTo.js')
+        // Magnific Popup
+        script(src='js/jquery.magnific-popup.min.js')
+        script(src='js/magnific-popup-options.js')
+        // Main
+        script(src='js/main.js')
+        script(src='/js/cliente.js')
