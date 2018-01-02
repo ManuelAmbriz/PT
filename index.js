@@ -11,10 +11,10 @@ var session_middleware = require("./middleware/session");
 var methodOverride = require("method-override");
 var session_rol = require("./middleware/rol");
 var session_movil = require("./middleware/movil");
-var RedisStore = require("connect-redis")(session);
+//var RedisStore = require("connect-redis")(session);
 var http = require("http");
 var realtime = require("./realtime");
-var redis = require("redis");
+//var redis = require("redis");
 var firebase = require("firebase");
 var request = require('request'); 
 
@@ -23,7 +23,7 @@ var Sensor = require("./models/sensores").Sensor;
 var NotificacionSensor = require("./models/notificacionessensores").Notificacionessensores
 var Token = require("./models/token").Token
 
-var cliente = redis.createClient();
+//var cliente = redis.createClient();
 
 var port = 3000;
 var app=express();
@@ -48,14 +48,18 @@ var config = {
   };
 firebase.initializeApp(config);
 
-var sessionMiddleare = session({
+/*var sessionMiddleare = session({
     store: new RedisStore({}),
     secret:"super secret"
-})
+})*/
 
-realtime(server, sessionMiddleare);
+//realtime(server, sessionMiddleare);
 
-app.use(sessionMiddleare);
+app.use(session({
+    secret: "AIzaSyA9TjPrNfbYXKhke3fSJ5DLZg3PHBZ3ar8",
+    resave: false,
+    saveUninitialized: false
+}));
 app.set("view engine", "jade");
 
 
