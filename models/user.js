@@ -1,7 +1,7 @@
 //Tabla de Usuarios.
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema; // COntructor para los Schemas
-mongoose.connect("mongodb://localhost/PT");  // coneccion a base de datos 
+mongoose.connect("mongodb://root:root@ds135537.mlab.com:35537/pt");  // coneccion a base de datos 
 
 
 var user_schema = new Schema({

@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-mongoose.connect("mongodb://locahost/PT");
+mongoose.connect("mongodb://root:root@ds135537.mlab.com:35537/pt");
 
 var sensor_schema = new Schema({
     ip: String,
