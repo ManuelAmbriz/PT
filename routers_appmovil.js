@@ -477,20 +477,22 @@ router.route("/notificaciones")
         //console.log(notificaciones);
        Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
            if(!err){
-               for(var ras in raspberry){
-                   Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                        if(!err){
-                            for (var sen in sensor){
-                               NotificacionSensor.find({sensor_id: sensor[sen]._id}, function(err,notificacionsensor){
-                               if(err){res.redirect("/userapp");return;}
-                                res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
-                               }) 
-                            }
-                            
-                        }   
-                   })
-               }
-               
+               if(raspberry != ""){
+                   for(var ras in raspberry){
+                       Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                            if(!err){
+                                for (var sen in sensor){
+                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}, function(err,notificacionsensor){
+                                   if(err){res.redirect("/userapp");return;}
+                                    res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
+                                   }) 
+                                }
+
+                            }   
+                       })
+                   }
+                }
+               else{ res.send({notificaciones: notificaciones, notificacionsensor: ""})}
            }
        })
           

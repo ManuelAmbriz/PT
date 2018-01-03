@@ -455,27 +455,32 @@ router.route("/notificaciones")
         .populate("redcamaras_id")
         .exec(function(err, notificaciones){
     if(err){res.redirect("/userapp");return;}  
-        //console.log(notificaciones);
+      else {
+          
+          console.log("Notificaciones " + notificaciones);
        Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
            if(!err){
-               for(var ras in raspberry){
-                   Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                        if(!err){
-                            for (var sen in sensor){
-                               NotificacionSensor.find({sensor_id: sensor[sen]._id}, function(err,notificacionsensor){
-                               if(err){res.redirect("/userapp");return;}
-                                res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
-                               }) 
-                            }
-                            
-                        }   
-                   })
+               if(raspberry != ""){
+                   for(var ras in raspberry){
+                       Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                            if(!err){
+                                for (var sen in sensor){
+                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}, function(err,notificacionsensor){
+                                   if(err){res.redirect("/userapp");return;}
+                                    res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
+                                   }) 
+                                }
+
+                            }   
+                       })
+                   }
+            }
+               else {
+                    res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: ""})
                }
-               
            }
-       })
-          
-        
+       })   
+    }
     });
 })
   /*  .post(function(req,res){
