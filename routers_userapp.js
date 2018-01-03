@@ -720,14 +720,17 @@ router.post("/quitarnotificacionessensores", function(req, res){
 
 router.get("/estatusdesensores", function(req, res){
         Raspberry.find({user_id: res.locals.user._id}, function(err, raspberry){
-            for (var rasp in raspberry){
-                Sensor.findOne({raspberry_id: raspberry[rasp]._id}, function(err, sensores){
-                    console.log("estatussensores " + sensores)
-                    if (sensores != null){
-                    res.send(sensores.notificacion)}
-                    else{res.send("Error")}
-                })      
+            if(raspberry != ""){
+                for (var rasp in raspberry){
+                    Sensor.findOne({raspberry_id: raspberry[rasp]._id}, function(err, sensores){
+                        console.log("estatussensores " + sensores)
+                        if (sensores != null){
+                        res.send(sensores.notificacion)}
+                        else{res.send("Error")}
+                    })      
+                }
             }
+            else {res.send("Error")}
         })
 })
 

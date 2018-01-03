@@ -492,7 +492,7 @@ router.route("/notificaciones")
                        })
                    }
                 }
-               else{ res.send({notificaciones: notificaciones, notificacionsensor: ""})}
+               else{ res.send({notificaciones: notificaciones, notificacionsensor: []})}
            }
        })
           
