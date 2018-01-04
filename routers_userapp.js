@@ -37,7 +37,8 @@ router.get("/redescamaras/vercam", function(req,res){
         .populate("user_id")
         .exec(function(err, solicitudunirse){
         if(err){res.redirect("/userapp");return}
-        res.render("userapp/redescamaras/verred", {solicitudunirse:solicitudunirse})
+        console.log(solicitudunirse)
+        res.render("userapp/redescamaras/verred", {solicitudunirse:solicitudunirse, user_id: res.locals.user._id.toString()})
         
     })
 });

@@ -50,20 +50,23 @@ head
           .col-xs-6.text-right.menu-1
             ul
                   li
-                    a(href='/app') Inicio
-                  li
-                    a(href='/app/user') Usuarios
+                    a(href='/userapp') Inicio
+                  li.has-dropdown
+                    a(href='/userapp/redescamaras') Mis Redes de Cámaras
+                    ul.dropdown
+                        li
+                            a(href="/userapp/solicitud/new") Unirse a Red 
                   
                   li.has-dropdown
-                    a(href='/app/redescamaras') Red de Cámaras 
+                    a(href='/userapp/redescamaras/new') Crear Red de Cámaras
                     ul.dropdown
                         li 
-                            a(href="/app/redescamaras/new") Crear Red Vecinal  
+                            a(href="/userapp/solicitud") Mis Solicitudes 
                         li 
-                            a(href="/app/solicitud") Solicitudes de Usuarios      
+                            a(href="/userapp/redescamaras/") Solicitudes Recibidas      
 
                   li
-                    a(href='/app/redescamaras') Ver Cámaras 
+                    a(href='/userapp/redescamaras/vercam') Ver Cámaras 
     header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(../../../images/img_4.jpg)')
       .overlay
       .gtco-container

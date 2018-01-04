@@ -88,19 +88,20 @@ head
                    | Se muestran las solicitudes solicitadas por usted
             .row
               for sc in solicitudunirse
-               .col-lg-4.col-md-4.col-sm-6
-                 .fh5co-project-item
-                   .fh5co-text(Style="margin-top:20px")
-                     h2 Solicitud de 
-                     p #{sc.user_id.nombre} #{sc.user_id.apellidopaterno}
-                     h2 A unirse a la red con domicilio 
-                     if(sc.redcamaras_id != null)
-                        p #{sc.redcamaras_id.calle} #{sc.redcamaras_id.colonia} #{sc.redcamaras_id.ciudad} Como número exterior mínimo #{sc.redcamaras_id.numeromin} y máximo #{sc.redcamaras_id.numeromax}
-                     h4 Estatus  
-                     h2 #{sc.estatus}
+               if sc.user_id._id.toString() != sc.redcamaras_id.user_id.toString()
+                   .col-lg-4.col-md-4.col-sm-6
+                     .fh5co-project-item
+                       .fh5co-text(Style="margin-top:20px")
+                         h2 Solicitud de 
+                         p #{sc.user_id.nombre} #{sc.user_id.apellidopaterno}
+                         h2 A unirse a la red con domicilio 
+                         if(sc.redcamaras_id != null)
+                            p #{sc.redcamaras_id.calle} #{sc.redcamaras_id.colonia} #{sc.redcamaras_id.ciudad} Como número exterior mínimo #{sc.redcamaras_id.numeromin} y máximo #{sc.redcamaras_id.numeromax}
+                         h4 Estatus  
+                         h2 #{sc.estatus}
 
-                     form(action="/userapp/solicitud/#{sc.id}?_method=DELETE", method='post', class="link" )
-                        input.btn-default.btn-sm(type="submit", value="Eliminar")
+                         form(action="/userapp/solicitud/#{sc.id}?_method=DELETE", method='post', class="link" )
+                            input.btn-default.btn-sm(type="submit", value="Eliminar Solicitud de Ingreso")
                  
     footer#gtco-footer(role='contentinfo')
           .gtco-container

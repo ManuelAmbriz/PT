@@ -87,11 +87,10 @@ app.post("/user" , function(req,res){
     });//despues de que guardes has lo que esta aqui adentro */
     
     user.save().then(function(us){
-        res.send(user);
-        res.send("Chingon"); 
+        res.render("index", {hola : 'div class="alert alert-success"', hola2: 'Usuario Registrador Con Exito'})
     }, function(err){
         console.log(String(err));
-        res.send("No Chingon :( ");
+       res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Error'})
     });
     
 });
