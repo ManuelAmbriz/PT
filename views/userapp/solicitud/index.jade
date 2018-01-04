@@ -63,7 +63,7 @@ head
                         li 
                             a(href="/userapp/solicitud") Mis Solicitudes 
                         li 
-                            a(href="/userapp/redescamaras/") Solicitudes Recibidas      
+                            a(href="/userapp/solicitudes") Solicitudes Recibidas      
 
                   li
                     a(href='/userapp/redescamaras/vercam') Ver Cámaras 
@@ -86,6 +86,8 @@ head
                 h2 Solicitudes 
                     p
                    | Se muestran las solicitudes solicitadas por usted
+                #{hola}
+                    | #{hola2}
             .row
               for sc in solicitudunirse
                if sc.user_id._id.toString() != sc.redcamaras_id.user_id.toString()

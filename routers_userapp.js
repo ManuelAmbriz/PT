@@ -215,7 +215,14 @@ router.route("/solicitud/:id")
                 }
                 else 
                     {
-                        res.send("Usuario ya con registrado en una Red o con una Solicitud Pendiente");
+                         SolicitudUnirse.find({user_id: res.locals.user._id})
+                            .populate("user_id")// join user where user_id = user.usr_id
+                            .populate("redcamaras_id")
+                            .exec(function(err, solicitudunirse){
+                        if(err){res.redirect("/userapp");return;}  
+                            console.log(solicitudunirse);
+                        res.render("userapp/solicitud/index", {solicitudunirse: solicitudunirse, hola : 'div class="alert alert-danger"', hola2: 'Usuario ya con registrado en una Red o con una Solicitud Pendiente'})  
+                         })
                     }
             });
        
@@ -233,6 +240,24 @@ router.route("/solicitud/:id")
         })
     });
 
+
+router.route("/solicitudes")
+    .get(function(req,res){
+    RedCamaras.findOne({user_id: res.locals.user._id}, function(err, redcamara){
+        if (!err){
+             SolicitudUnirse.find({redcamaras_id: redcamara, estatus:"Pendiente"})
+                .populate("user_id")// join user where user_id = user.usr_id
+                .populate("redcamaras_id")
+                .exec(function(err, solicitudunirse){
+            if(err){res.redirect("/userapp");return;}    
+            res.render("userapp/solicitud/show", {solicitudunirse: solicitudunirse})    
+            });
+        }else{res.redirect("/userapp"); return}
+    })
+   
+    
+     
+});
 
 
 router.route("/solicitud")
