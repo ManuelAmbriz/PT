@@ -106,7 +106,7 @@ router.route("/redescamaras/:id")
 
 router.route("/redescamaras")
     .get(function(req, res){
-    RedCamaras.find({estatus:"Aprobado"})
+    RedCamaras.find({})
     .populate("user_id")                
     .exec(function(err, redcamaras){
     if(err){res.redirect("/app");return;}    
@@ -166,6 +166,7 @@ router.route("/solicitud/:id")
     
 })
     .delete(function(req,res){
+    
     User.findOneAndRemove({_id: req.params.id}, function(err){
             if(!err){
              res.redirect("/app/solicitud/")}
@@ -378,6 +379,12 @@ router.route("/camaras")
      
 });
 
+router.route("/redcamaradeletependejodiego")
+.get(function(req, res){
+   RedCamaras.findOneAndRemove({_id: "5a4e9fdc6083b50004fc25d0"}, function(err){
+       if(!err){res.send("Diego tan wey")}
+   })
+});
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

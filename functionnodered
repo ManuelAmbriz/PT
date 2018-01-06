@@ -1,0 +1,8 @@
+if(msg.payload == 1){
+    msg.payload = {"_idsensor": "PIR1"}
+    msg.headers = {'content-type':'application/x-www-form-urlencoded'};
+}
+else {
+    msg.payload = " "
+}
+return msg;

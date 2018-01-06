@@ -246,6 +246,17 @@ router.route("/solicitud/:id")
     });
 
 
+router.route("/solicitudeliminar/:id")
+    //console.log("Eliminar solictud desde el movil")
+    .post(function(req,res){
+    console.log("Eliminar solictud desde el movil")
+     SolicitudUnirse.findOneAndRemove({user_id: res.locals.user._id}, function(err){
+         if(!err){res.send("Se elimino la solicitud de ingreso a la Red")}
+         else {res.send("Error")}
+     });
+
+});
+
 
 router.route("/solicitud")
     .get(function(req, res){

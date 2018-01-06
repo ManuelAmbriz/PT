@@ -93,6 +93,7 @@ head
                      p #{us.redcamaras} 
                      p #{us.rol}
                      p #{us._id}
+                     p #{us.contraseña}
                      a.btn-default.btn-sm(href='/app/user/#{us._id}/edit') Editar 
                      form(action="/app/user/#{us.id}?_method=DELETE", method='post', class="link" )
                         input.btn-default.btn-sm(type="submit", value="Eliminar")

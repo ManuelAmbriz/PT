@@ -162,12 +162,13 @@ app.get("/pruebaalv", function(req,res){
 
 
 app.post("/sensorpir", function(req,res){
+    console.log("Se activo sensore "+ req.body._idsensor)
     if(req.body._idsensor != undefined){
         //res.send("Se activo el sensror");
         var ipAddress = req.connection.remoteAddress;
-        console.log("Se Activo sensor  " + req.body._idsensor + " " + ipAddress.replace(/^.*:/, ''));
+        console.log("Se Activo sensor  " + req.body._idsensor + " " + req.body._idraspberry);
 
-        Raspberry.findOne({ip: ipAddress.replace(/^.*:/, '')}, function(err, raspberry){
+        Raspberry.findOne({ip: req.body._idraspberry}, function(err, raspberry){
         if(err){res.redirect("/userapp");return;}   
             if(raspberry == null){console.log("No hay Raspberry registrados")}
             else{ 
@@ -250,7 +251,7 @@ function enviarnotif (token, mensaje){
       headers: {
         'Authorization': 'key=' + serverKey, "Content-Type": "application/json", "project_id":"neighbors-alertavecinal2"
       },
-      json:  {"to" : token, "notification" : {"body" : mensaje},"data" : {"nombre" : "Manuel Ambriz", "edad" : "22"}}
+      json:  {"to" : token, "notification" : {"body" : mensaje,  "sound" : "default"},"data" : {"nombre" : "Manuel Ambriz", "edad" : "22"}}
       
     };
 

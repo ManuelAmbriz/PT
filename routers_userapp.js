@@ -807,7 +807,7 @@ function enviarnotif (token, mensaje){
       headers: {
         'Authorization': 'key=' + serverKey, "Content-Type": "application/json", "project_id":"neighbors-alertavecinal2"
       },
-      json:  {"to" : token, "notification" : {"body" : mensaje},"data" : {"nombre" : "Manuel Ambriz", "edad" : "22"}}
+      json:  {"to" : token, "notification" : {"body" : mensaje, "sound" : "default"},"data" : {"nombre" : "Manuel Ambriz", "edad" : "22"}}
       
     };
 
