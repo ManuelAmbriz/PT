@@ -479,6 +479,7 @@ router.route("/notificaciones")
    Notificaciones.find({})
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
+        .sort({_id: -1})
         .exec(function(err, notificaciones){
     if(err){res.redirect("/userapp");return;}  
       else {
@@ -491,7 +492,7 @@ router.route("/notificaciones")
                        Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
                             if(!err){
                                 for (var sen in sensor){
-                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}, function(err,notificacionsensor){
+                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
                                    if(err){res.redirect("/userapp");return;}
                                     res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
                                    }) 
