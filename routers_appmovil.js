@@ -266,7 +266,8 @@ router.route("/solicitud")
         .exec(function(err, solicitudunirse){
     if(err){res.redirect("/userapp");return;}  
        // console.log(solicitudunirse);
-    res.send({solicitudunirse: solicitudunirse})    
+    res.send({solicitudunirse: solicitudunirse, user_id: res.locals.user._id.toString()})
+        })    
     });
     
 })

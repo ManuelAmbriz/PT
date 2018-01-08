@@ -113,7 +113,7 @@ app.post("/user" , function(req,res){
 
 
 app.post("/sessions", function(req,res){
-    
+    console.log("Sessiones")
     User.findOne({correo: req.body.email, contraseña: req.body.contraseña}, function(err,user){
         if(err){res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Usuario o Contraseña Incorrectos'})}
         if(user == null){res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Usuario o Contraseña Incorrectos'})} 

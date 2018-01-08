@@ -6,8 +6,13 @@ var SolicitudUnirse = require("./models/solicitudunirse").SolicitudUnirse;
 var RedCamaras_finder = require("./middleware/find_redcamaras");
 var Users_finder = require("./middleware/find_user");
 var Solicitud_finder = require("./middleware/find_solicitudcrear");
-
-
+var camaras_finder = require("./middleware/find_camara");
+var Camaras = require("./models/camaras").Camaras;
+var Notificaciones = require("./models/notificaciones").Notificaciones;
+var Token = require("./models/token").Token;
+var Raspberry = require("./models/raspberry").Raspberry;
+var Sensor = require("./models/sensores").Sensor;
+var NotificacionSensor = require("./models/notificacionessensores").Notificacionessensores
 router.get("/", function(req,res){
     res.render("app/home", {user: User})
 });
@@ -94,14 +99,27 @@ router.route("/redescamaras/:id")
     
 })
     .delete(function(req,res){
-        RedCamaras.findOneAndRemove({_id: req.params.id}, function(err){
+        Camaras.find({redcamaras_id: req.params.id}).remove(function(err){
             if(!err){
-             res.redirect("/app/redescamaras/")}
-            else{
-                res.redirect("/app/redescamaras/show/"+req.params.id);
+                Notificaciones.find({redcamaras_id: req.params.id}).remove(function(err){
+                    if(!err){
+                        SolicitudUnirse.find({redcamaras_id: req.params.id}).remove(function(err){
+                            if(!err){
+                                    RedCamaras.findOneAndRemove({_id: req.params.id}, function(err){
+                                    if(!err){
+                                     res.redirect("/app/redescamaras/")}
+                                    else{
+                                        res.redirect("/app/redescamaras/show/"+req.params.id);
+                                    }
+
+                                })
+                            }
+                        })
+                    }
+                })
             }
-                              
         })
+        
     });
 
 router.route("/redescamaras")
