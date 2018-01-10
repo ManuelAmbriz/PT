@@ -83,25 +83,6 @@ head
           .col-med-8.col-md-offset-0.text-center.gtco-heading
             img.img-resposive(src='../../images/camara128.png')
             h2 Registra una nueva cámaras  
-        .gtco-container
-            .row  
-              .col-med-8.col-md-offset-3.text-center.gtco-headng
-                .col-md-8.text-center.gtco-heading.new-camara
-                    h4 Ingresa la Ip de la cámara
-                    .row.form-group
-                      .col-md-12
-                        label.sr-only(for='ip') IP
-                        input#calle.form-control(type='text', name='ip', placeholder='IP' , required='')
-                    .row.form-group
-
-      .gtco-container
-        .row              
-            .col-md-8.col-md-offset-2.text-center.gtco-heading
-                 
-                h2 Redes de Camaras 
-                    p
-                   | 
-             .row
         if(typeof solicitudunirse == "undefined")  
             .gtco-container
             .row
@@ -111,6 +92,7 @@ head
         
         else         
              for su in solicitudunirse
+               .col-lg-4.col-md-4.col-sm-6.new-camera
                .col-lg-4.col-md-4.col-sm-6.new-camera
                  .fh5co-project-item
                    .fh5co-text(Style="margin-top:20px")
@@ -125,7 +107,8 @@ head
                         br
                         input#calle.form-control(title='IPv4',type='url', name='ip', placeholder='host de la cámara' , required)
                         br
-                        input.btn-default.btn-sm(type="submit", value="Agregar cámara está Red")         
+                        input.btn-default.btn-sm(type="submit", value="Agregar cámara está Red") 
+                .col-lg-4.col-md-4.col-sm-6.new-camera
             
     footer#gtco-footer(role='contentinfo')
           .gtco-container
