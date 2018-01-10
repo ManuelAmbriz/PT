@@ -476,6 +476,9 @@ router.get("/notificaciones/new", function(req,res){
 
 router.route("/notificaciones")
 .get(function(req, res){
+    SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id}, function(err, idredvecional){
+    if(idredvecional != null){
+    
    Notificaciones.find({})
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
@@ -509,6 +512,11 @@ router.route("/notificaciones")
        })   
     }
     });
+}
+        else{
+            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: []})
+        }
+})
 })
   /*  .post(function(req,res){
     Notificaciones.find({})
