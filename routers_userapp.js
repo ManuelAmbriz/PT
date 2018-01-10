@@ -493,6 +493,7 @@ router.route("/notificaciones")
                if(raspberry != ""){
                    for(var ras in raspberry){
                        Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                           if(sensor != ""){
                             if(!err){
                                 for (var sen in sensor){
                                    NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
@@ -501,7 +502,8 @@ router.route("/notificaciones")
                                    }) 
                                 }
 
-                            }   
+                            }  
+                       }
                        })
                    }
             }
@@ -692,22 +694,27 @@ router.route("/sensores/:id")
             if(!err){
                 Sensor.find({raspberry_id: req.params.id}, function (err, sensores){
                     if (!err) {
+                        if(sensores != ""){
                         for (var sen in sensores){
                             NotificacionSensor.find({sensor_id: sensores[sen]._id}).remove(function(err){
-                                if (err) {res.send("Error")}
+                                    Sensor.find({raspberry_id: req.params.id}).remove(function(err){
+                                         if(!err){
+                                            console.log("Token Eliminado")
+                                             res.send("Eliminado el Sensor")}
+                                            else{
+                                                res.send("Error")
+                                            }
+                                    })
+                                 res.redirect("/userapp/sensores")
+                                
                             })
                         }
                     }
+                        else{res.redirect("/userapp/sensores")}
+                    }
                 })
-                Sensor.find({raspberry_id: req.params.id}).remove(function(err){
-                     if(!err){
-                        console.log("Token Eliminado")
-                         res.send("Eliminado el Sensor")}
-                        else{
-                            res.send("Error")
-                        }
-                })
-             res.redirect("/userapp/sensores")}
+                
+            }
             else{
                 res.redirect("/userapp");
             }
