@@ -266,18 +266,21 @@ router.route("/user/:id")
 
 })
     .put(function(req,res){
-
+    console.log("Entro a editar usuario")
         //res.send(redcamaras) res.locals = {redcamaras:redcamaras}
-        res.locals.user.nombre= req.body.nombre; 
-        res.locals.user.apellidopaterno= req.body.apellidopaterno; 
-        res.locals.user.apellidomaterno= req.body.apellidomaterno; 
-        res.locals.user.correo= req.body.email; 
-        res.locals.user.contraseña= req.body.contraseña; 
-        res.locals.user.save().then(function(us){
+    User.findById({_id: req.params.id}, function(err, usuario){
+        usuario.nombre= req.body.nombre; 
+        usuario.apellidopaterno= req.body.apellidopaterno; 
+        usuario.apellidomaterno= req.body.apellidomaterno; 
+        usuario.correo= req.body.email; 
+        usuario.contraseña= req.body.contraseña; 
+        usuario.save().then(function(us){
             res.render("app/user/show")  
                     }, function(err){
                         res.render("app/user/"+req.params.id+"/edit")  
                      }); 
+    })
+        
     
 })
     .delete(function(req,res){
