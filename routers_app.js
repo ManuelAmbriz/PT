@@ -4,7 +4,7 @@ var router = express.Router();
 var User = require("./models/user").User;
 var SolicitudUnirse = require("./models/solicitudunirse").SolicitudUnirse;
 var RedCamaras_finder = require("./middleware/find_redcamaras");
-var Users_finder = require("./middleware/find_user");
+//var Users_finder = require("./middleware/find_user");
 var Solicitud_finder = require("./middleware/find_solicitudcrear");
 var camaras_finder = require("./middleware/find_camara");
 var Camaras = require("./models/camaras").Camaras;
@@ -257,7 +257,6 @@ router.get("/user/:id/edit", function(req,res){
         }
     })
       
-
 });
 
 router.route("/user/:id")
@@ -266,19 +265,23 @@ router.route("/user/:id")
 
 })
     .put(function(req,res){
-    console.log("Entro a editar usuario")
+    console.log("Entro a editar usuario con id " + req.params.id)
         //res.send(redcamaras) res.locals = {redcamaras:redcamaras}
-    User.findById({_id: req.params.id}, function(err, usuario){
-        usuario.nombre= req.body.nombre; 
-        usuario.apellidopaterno= req.body.apellidopaterno; 
-        usuario.apellidomaterno= req.body.apellidomaterno; 
-        usuario.correo= req.body.email; 
-        usuario.contraseña= req.body.contraseña; 
-        usuario.save().then(function(us){
-            res.render("app/user/show")  
+    User.findById({_id: req.params.id}, function(err, usuarios){
+       if(!err){
+           console.log(usuarios)
+            usuarios.nombre= req.body.nombre; 
+            usuarios.apellidopaterno= req.body.apellidopaterno; 
+            usuarios.apellidomaterno= req.body.apellidomaterno; 
+            usuarios.correo= req.body.email; 
+            usuarios.contraseña= req.body.contraseña; 
+            usuarios.save().then(function(us){
+            res.render("app/user/show", {usuarios: usuarios})  
                     }, function(err){
                         res.render("app/user/"+req.params.id+"/edit")  
-                     }); 
+                     });    
+       }
+        
     })
         
     
