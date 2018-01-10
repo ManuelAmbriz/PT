@@ -250,8 +250,12 @@ router.get("/user/new", function(req,res){
 router.all("/redescamaras/:id*", Users_finder)
 
 router.get("/user/:id/edit", function(req,res){
-
-    res.render("app/user/edit")   
+    User.findById({_id: req.params.id}, function(err, usuario){
+        if(!err)}{
+            res.render("app/user/edit", usuario: usuario) 
+        }
+    })
+      
 
 });
 
