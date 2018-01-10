@@ -247,7 +247,8 @@ router.get("/user/new", function(req,res){
     res.render("app/user/AltaRed")
     
 });
-router.all("/redescamaras/:id*", Users_finder)
+
+//router.all("/redescamaras/:id*", Users_finder)
 
 router.get("/user/:id/edit", function(req,res){
     User.findById({_id: req.params.id}, function(err, usuario){
