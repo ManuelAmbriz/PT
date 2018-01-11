@@ -1,3 +1,4 @@
+
 var express = require('express');
 
 var bodyParser = require('body-parser');
@@ -162,7 +163,6 @@ app.get("/pruebaalv", function(req,res){
 
 
 app.post("/sensorpir", function(req,res){
-    console.log("Se activo sensore "+ req.body._idsensor)
     if(req.body._idsensor != undefined){
         //res.send("Se activo el sensror");
         var ipAddress = req.connection.remoteAddress;
@@ -170,8 +170,10 @@ app.post("/sensorpir", function(req,res){
 
         Raspberry.findOne({ip: req.body._idraspberry}, function(err, raspberry){
         if(err){res.redirect("/userapp");return;}   
+            
             if(raspberry == null){console.log("No hay Raspberry registrados")}
             else{ 
+                console.log("Raspberry encontrada " + raspberry)
                 //////////////////////// Guardar Sensor Nuevo //////////////////////////////////
                 Sensor.findOne({_idsensor: req.body._idsensor, raspberry_id: raspberry._id}).count(function(err, count){
                     if (count == 0){
