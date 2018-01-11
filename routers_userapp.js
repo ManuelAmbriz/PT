@@ -479,15 +479,14 @@ router.route("/notificaciones")
     SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id}, function(err, idredvecional){
     if(idredvecional != null){
     
-   Notificaciones.find({})
+   Notificaciones.find({redcamaras_id: idredvecional._id})
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
         .sort({_id: -1})
         .exec(function(err, notificaciones){
     if(err){res.redirect("/userapp");return;}  
-      else {
-          
-          console.log("Notificaciones " + notificaciones);
+      else {  
+          //console.log("Notificaciones " + notificaciones);
        Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
            if(!err){
                if(raspberry != ""){
