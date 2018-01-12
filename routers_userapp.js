@@ -478,7 +478,6 @@ router.route("/notificaciones")
 .get(function(req, res){
     SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id}, function(err, idredvecional){
     if(idredvecional != null){
-            console.log("idredvecional " +  idredvecional)
            Notificaciones.find({redcamaras_id: idredvecional.redcamaras_id})
                 .populate("user_id")// join user where user_id = user.usr_id
                 .populate("redcamaras_id")
@@ -487,59 +486,20 @@ router.route("/notificaciones")
             if(err){res.redirect("/userapp");return;}  
               else {  
                   //console.log("Notificaciones " + notificaciones);
-               Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
+               NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
                    if(!err){
-                       if(raspberry != ""){
-                           for(var ras in raspberry){
-                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                                   if(sensor != ""){
-                                    if(!err){
-                                        for (var sen in sensor){
-                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
-                                           if(!err){
-                                            res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
-                                           }
-                                           }) 
-                                        }
-
-                                    }  
-                               }
-                               })
-                           }
-                    }
-                       else {
-                            res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: []})
-                       }
+                       res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
                    }
                })   
             }
             });
     }
         else{
-            Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
-                   if(!err){
-                       if(raspberry != ""){
-                           for(var ras in raspberry){
-                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                                   if(sensor != ""){
-                                    if(!err){
-                                        for (var sen in sensor){
-                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
-                                           if(err){res.redirect("/userapp");return;}
-                                            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: notificacionsensor})
-                                           }) 
-                                        }
-
-                                    }  
-                               }
-                               })
-                           }
-                    }
-                       else {
-                            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: []})
-                       }
-                   }
-               })
+            NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
+                if(!err){
+                    res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: notificacionsensor})
+                }
+            })
         }
     })
 })
@@ -723,15 +683,17 @@ router.route("/sensores/:id")
                                     Sensor.find({raspberry_id: req.params.id}).remove(function(err){
                                          if(!err){
                                             console.log("Token Eliminado")
-                                             res.send("Eliminado el Sensor")}
+                                             //res.send("Eliminado el Sensor")
+                                         }
                                             else{
-                                                res.send("Error")
+                                                //res.send("Error")
                                             }
                                     })
-                                 res.redirect("/userapp/sensores")
+                                 //res.redirect("/userapp/sensores")
                                 
                             })
                         }
+                            res.send("Eliminado el Sensor")
                     }
                         else{res.redirect("/userapp/sensores")}
                     }

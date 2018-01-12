@@ -200,7 +200,7 @@ app.post("/sensorpir", function(req,res){
                                 var c = ((b-a)/1000);
                                 console.log("A: " + a + " B: " + bstring + " C: " + c + " id " + notificacionessensores._id)
                                 if (c > 180) {// Si C es más grande a 3 min registra la notificación
-                                    var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje});
+                                    var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id,  user_id: raspberry.user_id });
                                     notificacion.save().then(function(us){
                                         console.log("UserId " + raspberry.user_id)
                                         Token.find({user_id: raspberry.user_id}, function(err, tokens){ // Si se guardo exitosamente manda no
@@ -221,7 +221,7 @@ app.post("/sensorpir", function(req,res){
                             else {
                                 var b = new Date();
                                 var bstring = b.toString(); 
-                                var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje});
+                                var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id, user_id: raspberry.user_id});
                                     notificacion.save().then(function(us){
                                         //res.send(sensor)
                                     }, function(err){
