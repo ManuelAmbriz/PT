@@ -478,46 +478,70 @@ router.route("/notificaciones")
 .get(function(req, res){
     SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id}, function(err, idredvecional){
     if(idredvecional != null){
-    
-   Notificaciones.find({redcamaras_id: idredvecional._id})
-        .populate("user_id")// join user where user_id = user.usr_id
-        .populate("redcamaras_id")
-        .sort({_id: -1})
-        .exec(function(err, notificaciones){
-    if(err){res.redirect("/userapp");return;}  
-      else {  
-          //console.log("Notificaciones " + notificaciones);
-       Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
-           if(!err){
-               if(raspberry != ""){
-                   for(var ras in raspberry){
-                       Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                           if(sensor != ""){
-                            if(!err){
-                                for (var sen in sensor){
-                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
-                                   if(err){res.redirect("/userapp");return;}
-                                    res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
-                                   }) 
-                                }
+            console.log("idredvecional " +  idredvecional)
+           Notificaciones.find({redcamaras_id: idredvecional.redcamaras_id})
+                .populate("user_id")// join user where user_id = user.usr_id
+                .populate("redcamaras_id")
+                .sort({_id: -1})
+                .exec(function(err, notificaciones){
+            if(err){res.redirect("/userapp");return;}  
+              else {  
+                  //console.log("Notificaciones " + notificaciones);
+               Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
+                   if(!err){
+                       if(raspberry != ""){
+                           for(var ras in raspberry){
+                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                                   if(sensor != ""){
+                                    if(!err){
+                                        for (var sen in sensor){
+                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
+                                           if(!err){
+                                            res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
+                                           }
+                                           }) 
+                                        }
 
-                            }  
+                                    }  
+                               }
+                               })
+                           }
+                    }
+                       else {
+                            res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: []})
                        }
-                       })
                    }
+               })   
             }
-               else {
-                    res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: ""})
-               }
-           }
-       })   
+            });
     }
-    });
-}
         else{
-            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: []})
+            Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
+                   if(!err){
+                       if(raspberry != ""){
+                           for(var ras in raspberry){
+                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                                   if(sensor != ""){
+                                    if(!err){
+                                        for (var sen in sensor){
+                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
+                                           if(err){res.redirect("/userapp");return;}
+                                            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: notificacionsensor})
+                                           }) 
+                                        }
+
+                                    }  
+                               }
+                               })
+                           }
+                    }
+                       else {
+                            res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: []})
+                       }
+                   }
+               })
         }
-})
+    })
 })
   /*  .post(function(req,res){
     Notificaciones.find({})
@@ -791,6 +815,13 @@ router.get("/allsensores", function(req, res){
 
 router.get("/allnotificacionessensoresalv", function(req, res){
    NotificacionSensor.find({}, function(err,sensores){
+       if(err){res.redirect("/userapp");return;}
+       res.send(sensores)
+   })  
+});
+
+router.get("/allnotificacionesalv", function(req, res){
+   Notificaciones.find({}, function(err,sensores){
        if(err){res.redirect("/userapp");return;}
        res.send(sensores)
    })  
