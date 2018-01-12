@@ -505,45 +505,70 @@ router.route("/notificaciones")
 .get(function(req, res){
     SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id}, function(err, idredvecional){
     if(idredvecional != null){
-    
-   Notificaciones.find({})
-        .populate("user_id")// join user where user_id = user.usr_id
-        .populate("redcamaras_id")
-        .sort({_id: -1})
-        .exec(function(err, notificaciones){
-    if(err){res.redirect("/userapp");return;}  
-      else {
-          
-          console.log("Notificaciones " + notificaciones);
-       Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
-           if(!err){
-               if(raspberry != ""){
-                   for(var ras in raspberry){
-                       Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
-                            if(!err){
-                                for (var sen in sensor){
-                                   NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
-                                   if(err){res.redirect("/userapp");return;}
-                                    res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
-                                   }) 
-                                }
+            
+           Notificaciones.find({redcamaras_id: idredvecional.redcamaras_id})
+                .populate("user_id")// join user where user_id = user.usr_id
+                .populate("redcamaras_id")
+                .sort({_id: -1})
+                .exec(function(err, notificaciones){
+            if(err){res.redirect("/userapp");return;}  
+              else {  
+                  //console.log("Notificaciones " + notificaciones);
+               Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
+                   if(!err){
+                       if(raspberry != ""){
+                           for(var ras in raspberry){
+                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                                   if(sensor != ""){
+                                    if(!err){
+                                        for (var sen in sensor){
+                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
+                                           if(!err){
+                                            res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
+                                           }
+                                           }) 
+                                        }
 
-                            }   
-                       })
+                                    }  
+                               }
+                               })
+                           }
+                    }
+                       else {
+                            res.send({notificaciones: notificaciones, notificacionsensor: []})
+                       }
                    }
+               })   
             }
-               else {
-                    res.send({notificaciones: notificaciones, notificacionsensor: []})
-               }
-           }
-       })   
+            });
     }
-    });
-}
         else{
-            res.send({notificaciones: [], notificacionsensor: []})
+            Raspberry.find({user_id: res.locals.user._id}, function(err,raspberry){
+                   if(!err){
+                       if(raspberry != ""){
+                           for(var ras in raspberry){
+                               Sensor.find({raspberry_id: raspberry[ras]._id}, function(err, sensor){
+                                   if(sensor != ""){
+                                    if(!err){
+                                        for (var sen in sensor){
+                                           NotificacionSensor.find({sensor_id: sensor[sen]._id}).sort({_id: -1}).exec(function(err,notificacionsensor){
+                                           if(err){res.redirect("/userapp");return;}
+                                            res.send({notificaciones: [], notificacionsensor: notificacionsensor})
+                                           }) 
+                                        }
+
+                                    }  
+                               }
+                               })
+                           }
+                    }
+                       else {
+                            res.send({notificaciones: [], notificacionsensor: []})
+                       }
+                   }
+               })
         }
-})
+    })
 })
 
 router.route("/notificaciones/:id")
