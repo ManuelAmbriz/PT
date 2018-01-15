@@ -9,7 +9,7 @@ var notificacionessensores_schema = new Schema({
     fecha: String,
     sensor_id: {type: Schema.Types.ObjectId, ref: "Sensor"} ,
     raspberry_id: {type: Schema.Types.ObjectId, ref: "Raspberry"},
-    user_id: {type: Schema.Types.ObjectId, ref: "User"}   
+     user_id: {type: Schema.Types.ObjectId, ref: "User"}   
 });
 
 
