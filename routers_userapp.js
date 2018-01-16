@@ -643,7 +643,7 @@ router.route("/sensores")
          .count(function(err, count){
             if(err){res.redirect("/userapp");return;}    
                 if(count == 0){
-                      var raspberry = new Raspberry ({ip: req.body.ip, user_id: res.locals.user._id});
+                      var raspberry = new Raspberry ({ip: req.body.ip, user_id: res.locals.user._id, notificacion: "Activado"});
                         raspberry.save().then(function(us){
                             res.redirect("/userapp/sensores")
                         }, function(err){
@@ -722,44 +722,36 @@ router.route("/sensores/:id")
 });
 
 router.post("/quitarnotificacionessensores", function(req, res){
+    var bandera = -100
         Raspberry.find({user_id: res.locals.user._id}, function(err, raspberry){
             for (var rasp in raspberry){
-                Sensor.find({raspberry_id: raspberry[rasp]._id}, function(err, sensores){
-                    for (var sen in sensores){
-                        sensores[sen].ip =  sensores[sen].ip
-                        sensores[sen]._idsensor = sensores[sen]._idsensor
-                        sensores[sen].notificacion = req.body.notificacion
-                        sensores[sen].mensaje = sensores[sen].mensaje
-                        sensores[sen].raspberry_id =  sensores[sen].raspberry_id 
+                        raspberry[rasp].ip =  raspberry[rasp].ip
+                        raspberry[rasp].idRaspberry = raspberry[rasp].idRaspberry
+                        raspberry[rasp].notificacion = req.body.notificacion
+                        raspberry[rasp].user_id = raspberry[rasp].user_id
+                        
 
-                        sensores[sen].save().then(function(us){
-                           res.send("Notificaciones de los Sensores " + req.body.notificacion); 
+                        raspberry[rasp].save().then(function(us){
+                           bandera = 100
                         }, function(err){
                             console.log(String(err));
-                            res.send("No Chingon :( " + err);
-                        });  
-                    }
-                    
-                })      
-            }
-        })
-})
+                           bandera = -100
+                        });   
+                }  
+                if(bandera > 0){res.send("Notificaciones de los Sensores " + req.body.notificacion); }
+                else{res.send("Error")}
+            })
+        
+});
 
 router.get("/estatusdesensores", function(req, res){
-        Raspberry.find({user_id: res.locals.user._id}, function(err, raspberry){
-            if(raspberry != ""){
-                for (var rasp in raspberry){
-                    Sensor.findOne({raspberry_id: raspberry[rasp]._id}, function(err, sensores){
-                        console.log("estatussensores " + sensores)
-                        if (sensores != null){
-                        res.send(sensores.notificacion)}
+        Raspberry.findOne({user_id: res.locals.user._id}, function(err, raspberry){
+                        if (raspberry != null){
+                        res.send(raspberry.notificacion)}
                         else{res.send("Error")}
                     })      
-                }
-            }
-            else {res.send("Error")}
-        })
-})
+        
+});
 
 router.get("/allraspberryalv", function(req, res){
    Raspberry.find({}, function(err,sensores){
