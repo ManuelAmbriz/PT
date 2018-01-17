@@ -735,7 +735,7 @@ router.route("/sensores/:id")
 });
 
 router.post("/quitarnotificacionessensores", function(req, res){
-    var bandera = -100
+    var bandera = 100
         Raspberry.find({user_id: res.locals.user._id}, function(err, raspberry){
             for (var rasp in raspberry){
                         raspberry[rasp].ip =  raspberry[rasp].ip
@@ -745,7 +745,7 @@ router.post("/quitarnotificacionessensores", function(req, res){
                         
 
                         raspberry[rasp].save().then(function(us){
-                           bandera = 100
+                          
                         }, function(err){
                             console.log(String(err));
                            bandera = -100
