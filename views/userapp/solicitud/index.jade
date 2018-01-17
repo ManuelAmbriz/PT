@@ -90,7 +90,7 @@ head
                     | #{hola2}
             .row
               for sc in solicitudunirse
-               if sc.user_id._id.toString() != sc.redcamaras_id.user_id.toString()
+               if sc.user_id._id.toString() != sc.redcamaras_id.user_id.toString() && sc.estatus != "Aprobado"
                    .col-lg-4.col-md-4.col-sm-6
                      .fh5co-project-item
                        .fh5co-text(Style="margin-top:20px")

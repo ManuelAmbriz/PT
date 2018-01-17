@@ -37,8 +37,20 @@ router.get("/redescamaras/vercam", function(req,res){
         .populate("user_id")
         .exec(function(err, solicitudunirse){
         if(err){res.redirect("/userapp");return}
-        console.log(solicitudunirse)
+ 
         res.render("userapp/redescamaras/verred", {solicitudunirse:solicitudunirse, user_id: res.locals.user._id.toString()})
+        
+    })
+});
+
+router.get("/redescamaras/vercamaras", function(req,res){
+    SolicitudUnirse.findOne({estatus: "Aprobado", user_id:res.locals.user._id})
+        .populate("redcamaras_id")
+        .populate("user_id")
+        .exec(function(err, solicitudunirse){
+        if(err){res.redirect("/userapp");return}
+        res.redirect("/userapp/camaras/"+solicitudunirse.redcamaras_id._id)
+        //res.render("userapp/redescamaras/verred", {solicitudunirse:solicitudunirse, user_id: res.locals.user._id.toString()})
         
     })
 });
@@ -55,9 +67,13 @@ router.route("/redescamarasd/:id")
     .delete(function(req,res){
         SolicitudUnirse.findOneAndRemove({_id: req.params.id}, function(err){
             if(!err){
-             res.redirect("/userapp/redescamaras/vercam")}
+                 Camaras.find({user_id: res.locals.user._id}).remove(function(err){
+                    if(!err){res.redirect("/userapp/redescamaras/vercam")}
+                })
+             }
             else{
-                res.redirect("/userapp/");
+               res.redirect("/userapp/");
+                
             }
                               
         })
@@ -113,14 +129,11 @@ router.route("/redescamaras/:id")
 
 router.route("/redescamaras")
     .get(function(req, res){
-    RedCamaras.find({user_id: res.locals.user._id}, function(err, redcamaras){
-    if(err){res.redirect("/userapp");return;}    
-    res.render("userapp/redescamaras/index", {redcamaras:redcamaras})    
-    });
+   res.redirect("/userapp/redescamaras/vercam")
     
 })
     .post(function(req,res){
-    console.log(res.locals.user._id);
+    //console.log(res.locals.user._id);
   var redcamaras = new RedCamaras ({ calle: req.body.calle, numeromax: req.body.numeromax, numeromin: req.body.numeromin, 
                                       colonia: req.body.colonia, ciudad: req.body.ciudad, estado: req.body.estado, cp: req.body.cp, participantes: req.body.participantes, user_id: res.locals.user._id, estatus:"Pendiente"
         
@@ -191,7 +204,7 @@ router.route("/solicitud/:id")
             
             solicitudunirse.save(function(err){
                     if(err){res.redirect("/userapp");return;}    
-                    console.log(solicitudunirse);
+                    //console.log(solicitudunirse);
                     res.redirect("/userapp/redescamaras")   
                 })
         })
@@ -220,7 +233,7 @@ router.route("/solicitud/:id")
                             .populate("redcamaras_id")
                             .exec(function(err, solicitudunirse){
                         if(err){res.redirect("/userapp");return;}  
-                            console.log(solicitudunirse);
+                            //console.log(solicitudunirse);
                         res.render("userapp/solicitud/index", {solicitudunirse: solicitudunirse, hola : 'div class="alert alert-danger"', hola2: 'Usuario ya con registrado en una Red o con una Solicitud Pendiente'})  
                          })
                     }
@@ -267,7 +280,7 @@ router.route("/solicitud")
         .populate("redcamaras_id")
         .exec(function(err, solicitudunirse){
     if(err){res.redirect("/userapp");return;}  
-        console.log(solicitudunirse);
+        //console.log(solicitudunirse);
     res.render("userapp/solicitud/index", {solicitudunirse: solicitudunirse})    
     });
     
@@ -318,8 +331,8 @@ router.route("/camaras/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        console.log(camaras);
-    res.render("userapp/camaras/index", {camaras: camaras})    
+        //console.log(camaras);
+    res.render("userapp/camaras/index", {camaras: camaras, usr_id: res.locals.user._id.toString()})    
     });
     
 })
@@ -354,7 +367,7 @@ router.route("/camaras/:id")
 
 })
         .post(function(req,res){
-    console.log(req.params.id)
+    //console.log(req.params.id)
         var camaras = new Camaras ({ ip: req.body.ip , user_id: res.locals.user._id, redcamaras_id: req.params.id, numeroex: req.body.numeroex
          });
     
@@ -377,8 +390,8 @@ router.route("/camaras")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        console.log(camaras);
-    res.render("userapp/camaras/index", {camaras: camaras})    
+        //console.log(camaras);
+    res.render("userapp/camaras/index", {camaras: camaras, usr_id: res.locals.user._id.toString()})    
     });
      
 });
@@ -413,8 +426,8 @@ router.route("/camaras/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        console.log(camaras);
-    res.render("userapp/camaras/index", {camaras: camaras})    
+       // console.log(camaras);
+    res.render("userapp/camaras/index", {camaras: camaras, usr_id: res.locals.user._id.toString()})    
     });
     
 })
@@ -449,7 +462,7 @@ router.route("/camaras/:id")
 
 })
         .post(function(req,res){
-    console.log(req.params.id)
+    //console.log(req.params.id)
         var camaras = new Camaras ({ ip: req.body.ip , user_id: res.locals.user._id, redcamaras_id: req.params.id, numeroex: req.body.numeroex
          });
     
@@ -522,8 +535,8 @@ router.route("/notificaciones/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        console.log(camaras);
-    res.render("userapp/camaras/index", {camaras: camaras})    
+        //console.log(camaras);
+    res.render("userapp/camaras/index", {camaras: camaras, usr_id: res.locals.user._id.toString()})    
     });
     
 })
@@ -596,7 +609,7 @@ router.route("/token/:id")
         .populate("redcamaras_id")
         .exec(function(err, tokens){
     if(err){res.send("error");return;}  
-        console.log(tokens);
+        //console.log(tokens);
     res.send({tokens: tokens})    
     });
     
@@ -666,8 +679,8 @@ router.route("/sensores/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        console.log(camaras);
-    res.render("userapp/camaras/index", {camaras: camaras})    
+        //console.log(camaras);
+    res.render("userapp/camaras/index", {camaras: camaras, usr_id: res.locals.user._id.toString()})    
     });
     
 })

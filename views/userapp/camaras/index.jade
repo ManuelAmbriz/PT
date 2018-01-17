@@ -106,9 +106,10 @@ head
                       if (typeof cm.redcamaras_id != "undefined" && typeof cm.numeroex != "undefined")
                         p Ubicada en #{cm.redcamaras_id.calle} #{cm.redcamaras_id.colonia} #{cm.redcamaras_id.estado}
                         p Con Número Exterior #{cm.numeroex}
-                     a.btn-default.btn-sm(href='/app/user/#{cm._id}/edit') Editar 
-                     form(action="/userapp/camaras/#{cm._id}?_method=DELETE", method='post', class='link' )
-                      input.btn-default.btn-sm(type="submit", value="Eliminar")
+                     if cm.user_id._id == usr_id
+                         a.btn-default.btn-sm(href='/app/user/#{cm._id}/edit') Editar  
+                         form(action="/userapp/camaras/#{cm._id}?_method=DELETE", method='post', class='link' )
+                          input.btn-default.btn-sm(type="submit", value="Eliminar")
                  
     footer#gtco-footer(role='contentinfo')
           .gtco-container

@@ -186,7 +186,7 @@ router.route("/solicitud/:id")
     .delete(function(req,res){
          Camaras.find({user_id: req.params.id}).remove(function(err){
         if(!err){
-            Notificiaciones.find({user_id: req.params.id}).remove(function(err){
+            Notificaciones.find({user_id: req.params.id}).remove(function(err){
                 if(!err){
                     RedCamaras.find({user_id: req.params.id}).remove(function(err){
                         if(!err){
@@ -287,14 +287,36 @@ router.route("/user/:id")
     
 })
     .delete(function(req,res){
-    User.findOneAndRemove({_id: req.params.id}, function(err){
-            if(!err){
-             res.redirect("/app/user/")}
-            else{
-                res.redirect("/app/user/show/"+req.params.id);
-            }
-                              
-        }) 
+    Camaras.find({user_id: req.params.id}).remove(function(err){
+        if(!err){
+            Notificaciones.find({user_id: req.params.id}).remove(function(err){
+                if(!err){
+                    RedCamaras.find({user_id: req.params.id}).remove(function(err){
+                        if(!err){
+                            SolicitudUnirse.find({user_id: req.params.id}).remove(function(err){
+                                if(!err){
+                                    Token.find({user_id: req.params.id}).remove(function(err){
+                                        if(!err){
+                                            User.findOneAndRemove({_id: req.params.id}, function(err){
+                                            if(!err){
+                                             res.redirect("/app/user/")}
+                                            else{
+                                                res.redirect("/app/user/show/"+req.params.id);
+                                            }
+
+                                        }) 
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
+    })
+    
+    
 });
 
 router.route("/user")
