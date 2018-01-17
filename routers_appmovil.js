@@ -681,6 +681,12 @@ router.get("/vaciartokensalv", function(req,res){
         })
 });
 
+router.route("/usuario")
+    .get(function(req, res){
+    res.send(res.locals.user)
+})
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;

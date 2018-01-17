@@ -744,7 +744,7 @@ router.post("/quitarnotificacionessensores", function(req, res){
         
 });
 
-router.get("/estatusdesensores", function(req, res){
+router.get( "/estatusdesensores", function(req, res){
         Raspberry.findOne({user_id: res.locals.user._id}, function(err, raspberry){
                         if (raspberry != null){
                         res.send(raspberry.notificacion)}

@@ -168,7 +168,7 @@ app.post("/sensorpir", function(req,res){
         var ipAddress = req.connection.remoteAddress;
         console.log("Se Activo sensor  " + req.body._idsensor + " " + req.body._idraspberry);
 
-        Raspberry.findOne({ip: req.body._idraspberry}, function(err, raspberry){
+        Raspberry.findOne({ip: req.body._idraspberry, notificacion: "Activado"}, function(err, raspberry){
         if(err){res.redirect("/userapp");return;}   
             
             if(raspberry == null){console.log("No hay Raspberry registrados")}
@@ -177,7 +177,7 @@ app.post("/sensorpir", function(req,res){
                 //////////////////////// Guardar Sensor Nuevo //////////////////////////////////
                 Sensor.findOne({_idsensor: req.body._idsensor, raspberry_id: raspberry._id}).count(function(err, count){
                     if (count == 0){
-                        var sensor = new Sensor ({raspberry_id: raspberry._id, _idsensor: req.body._idsensor, notificacion: "Activado", mensaje: req.body.mensaje});
+                        var sensor = new Sensor ({raspberry_id: raspberry._id, _idsensor: req.body._idsensor, mensaje: req.body.mensaje});
                         sensor.save().then(function(us){
                             //res.send(sensor)
                         }, function(err){
@@ -187,7 +187,7 @@ app.post("/sensorpir", function(req,res){
                 })
                     
                 /////////////////////// Mandar notificacion /////////////////////////////////////////
-                Sensor.findOne({_idsensor: req.body._idsensor, raspberry_id: raspberry._id, notificacion: "Activado"})
+                Sensor.findOne({_idsensor: req.body._idsensor, raspberry_id: raspberry._id})
                     .populate("raspberry_id")// join user where user_id = user.usr_id
                     .exec(function(err, sensor){
                     if(sensor != null){
