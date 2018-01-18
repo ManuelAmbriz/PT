@@ -745,7 +745,7 @@ router.post("/quitarnotificacionessensores", function(req, res){
                         
 
                         raspberry[rasp].save().then(function(us){
-                          
+                           bandera = 100
                         }, function(err){
                             console.log(String(err));
                            bandera = -100

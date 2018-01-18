@@ -13,13 +13,13 @@ var Raspberry = require("./models/raspberry").Raspberry;
 var Sensor = require("./models/sensores").Sensor;
 var NotificacionSensor = require("./models/notificacionessensores").Notificacionessensores
 router.get("/", function(req,res){
-    ////console.log(res.locals.user._id)
+    //console.log(res.locals.user._id)
     res.send(res.locals.user)
     //res.render("app/home", {user: User})
 });
 
 router.get("/profile", function(req,res){
-    ////console.log(res.locals.user._id)
+    //console.log(res.locals.user._id)
     res.send(res.locals.user)
     //res.render("app/home", {user: User})
 });
@@ -37,7 +37,7 @@ router.get("/redescamaras/:id/edit", function(req,res){
 
 router.route("/redescamaras/:id/users")
     .get(function(req,res){
-    ////console.log(req.params.id)
+    //console.log(req.params.id)
     SolicitudUnirse.find({estatus:"Aprobado", redcamaras_id: req.params.id, user_id:{$nin: [res.locals.user._id]}})
         .populate("redcamaras_id")
         .populate("user_id")
@@ -71,7 +71,7 @@ router.route("/redescamaras/:id")
 
         });
             solicitudunirse.save().then(function(us){
-           //console.log("Aqui se puede modificar ")
+           console.log("Aqui se puede modificar ")
     //res.send(redcamaras) res.locals = {redcamaras:redcamaras}
         res.locals.redcamaras.calle= res.locals.redcamaras.calle; 
         res.locals.redcamaras.numeromax= res.locals.redcamaras.numeromax; 
@@ -89,14 +89,14 @@ router.route("/redescamaras/:id")
                 SolicitudUnirs.findOneANdRemove({estatus: "Aprobado", user_id: res.locals.redcamaras.user_id, redcamaras_id: res.locals.redcamaras._id}, function(err){
                     if(!err){
                         //Se aprobo la Red y se creo solicitud 
-                        //console.log("Problema al aprobar la red ")
+                        console.log("Problema al aprobar la red ")
                         res.render("app/redescamaras/"+req.params.id)
                     }
                     
                 })                
              });                     
             }, function(err){
-            //console.log(String(err));
+            console.log(String(err));
             res.send("Error al aprobar la Red Intentelo mas tarde" + err);
         });   
 
@@ -116,7 +116,7 @@ router.route("/redescamaras/:id")
 
 router.route("/redescamaras")
     .get(function(req, res){
-    //console.log("Aqui entro en le redcamaras movil")
+    console.log("Aqui entro en le redcamaras movil")
     SolicitudUnirse.find({estatus: "Aprobado", user_id:res.locals.user._id})
         .populate("redcamaras_id")
         .populate("user_id")
@@ -128,7 +128,7 @@ router.route("/redescamaras")
     })
 })
     .post(function(req,res){
-    ////console.log(res.locals.user._id);
+    //console.log(res.locals.user._id);
   var redcamaras = new RedCamaras ({ calle: req.body.calle, numeromax: req.body.numeromax, numeromin: req.body.numeromin, 
                                       colonia: req.body.colonia, ciudad: req.body.ciudad, estado: req.body.estado, cp: req.body.cp, participantes: req.body.participantes, user_id: res.locals.user._id, estatus:req.body.estatus, notificaciones:"false"
         
@@ -136,7 +136,7 @@ router.route("/redescamaras")
         redcamaras.save().then(function(us){
        res.redirect("/app/redescamaras/"); 
     }, function(err){
-        //console.log(String(err));
+        console.log(String(err));
         res.send("No Chingon :( " + err);
     });   
     
@@ -203,7 +203,7 @@ router.route("/solicitud/:id")
     
 })
     .put(function(req,res){
-    //console.log("AceptarSolicitud")
+    console.log("AceptarSolicitud")
         SolicitudUnirse.findById(req.params.id)
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
@@ -215,18 +215,18 @@ router.route("/solicitud/:id")
             
             solicitudunirse.save(function(err){
                     if(err){res.send("Error");return;}    
-                    ////console.log(solicitudunirse);
+                    //console.log(solicitudunirse);
                     res.send("Desde ahora el usuario " + solicitudunirse.user_id.nombre + " "  + solicitudunirse.user_id.apellidopaterno + " estará en su Red" )  
                 })
         })
 
 })
     .post(function(req,res){
-    //console.log("La red de camaras sera la :"+req.params.id);
+    console.log("La red de camaras sera la :"+req.params.id);
      SolicitudUnirse.find({user_id: res.locals.user._id})
          .count(function(err, count){
             if(err){res.redirect("/userapp");return;}    
-                //console.log("Count " + count)
+                console.log("Count " + count)
                 if(count == 0){
                        var solicitudunirse = new SolicitudUnirse ({ estatus: "Pendiente", user_id: res.locals.user._id, redcamaras_id: req.params.id
                          });
@@ -234,7 +234,7 @@ router.route("/solicitud/:id")
                     solicitudunirse.save().then(function(us){
                     res.send("Solicitud Enviada")
                     }, function(err){
-                        //console.log(String(err));
+                        console.log(String(err));
                         res.send("No Chingon :( " + err);
                     }); 
                 }
@@ -260,9 +260,9 @@ router.route("/solicitud/:id")
 
 
 router.route("/solicitudeliminar/:id")
-    ////console.log("Eliminar solictud desde el movil")
-    .post(function(req,res){
     //console.log("Eliminar solictud desde el movil")
+    .post(function(req,res){
+    console.log("Eliminar solictud desde el movil")
      SolicitudUnirse.findOneAndRemove({user_id: res.locals.user._id}, function(err){
          if(!err){res.send("Se elimino la solicitud de ingreso a la Red")}
          else {res.send("Error")}
@@ -278,7 +278,7 @@ router.route("/solicitud")
         .populate("redcamaras_id")
         .exec(function(err, solicitudunirse){
     if(err){res.redirect("/userapp");return;}  
-       // //console.log(solicitudunirse);
+       // console.log(solicitudunirse);
     res.send({solicitudunirse: solicitudunirse,user_id: res.locals.user._id.toString()})
          
     });
@@ -292,7 +292,7 @@ router.route("/solicitud")
         redcamaras.save().then(function(us){
        res.redirect("/app/solicitud/"+redcamaras._id) 
     }, function(err){
-        //console.log(String(err));
+        console.log(String(err));
         res.send("No Chingon :( " + err);
     });   
     
@@ -383,7 +383,7 @@ router.route("/user")
         redcamaras.save().then(function(us){
        res.redirect("/app/user/"+redcamaras._id) 
     }, function(err){
-        //console.log(String(err));
+        console.log(String(err));
         res.send("No Chingon :( " + err);
     });   
     
@@ -395,7 +395,7 @@ router.route("/user")
 
 router.get("/redescamaras/vercam", function(req,res){
     //res.render("userapp/redescamaras/AltaRed")
-    //console.log("Aqui entro en le redcamaras movil")
+    console.log("Aqui entro en le redcamaras movil")
     SolicitudUnirse.find({estatus: "Aprobado", user_id:res.locals.user._id})
         .populate("redcamaras_id")
         .populate("user_id")
@@ -433,7 +433,7 @@ router.route("/camaras/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        ////console.log(camaras);
+        //console.log(camaras);
     res.send({camaras: camaras})    
     });
     
@@ -469,14 +469,14 @@ router.route("/camaras/:id")
 
 })
         .post(function(req,res){
-    //console.log(req.params.id)
+    console.log(req.params.id)
         var camaras = new Camaras ({ ip: req.body.ip , user_id: res.locals.user._id, redcamaras_id: req.params.id, numeroex: req.body.numeroex
          });
     
     camaras.save().then(function(us){
     res.redirect("/userapp/camaras/"+req.params.id); 
     }, function(err){
-        //console.log(String(err));
+        console.log(String(err));
         res.send("No Chingon :( " + err);
     });   
 });
@@ -492,7 +492,7 @@ router.route("/camaras")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        ////console.log(camaras);
+        //console.log(camaras);
     res.render("userapp/camaras/index", {camaras: camaras})    
     });
      
@@ -525,7 +525,7 @@ router.route("/notificaciones")
                 .exec(function(err, notificaciones){
             if(err){res.send("Error");return;}  
               else {  
-                  ////console.log("Notificaciones " + notificaciones);
+                  //console.log("Notificaciones " + notificaciones);
                NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
                    if(!err){
                        res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
@@ -551,7 +551,7 @@ router.route("/notificaciones/:id")
         .populate("redcamaras_id")
         .exec(function(err, camaras){
     if(err){res.redirect("/userapp");return;}  
-        ////console.log(camaras);
+        //console.log(camaras);
     res.render("userapp/camaras/index", {camaras: camaras})    
     });
     
@@ -573,8 +573,7 @@ router.route("/notificaciones/:id")
 
 })
         .post(function(req,res){
-    //console.log(req.params.id)
-    
+    console.log(req.params.id)
         var notificaciones = new Notificaciones ({ titulo: req.body.titulo , user_id: res.locals.user._id, redcamaras_id: req.params.id, mensaje: req.body.mensaje
          });
     
@@ -582,7 +581,7 @@ router.route("/notificaciones/:id")
         res.send("Alerta Vecinal Enviada")
    
     }, function(err){
-        //console.log(String(err));
+        console.log(String(err));
         res.send("Error en el servidor " + err);
     });   
 });
@@ -598,7 +597,7 @@ router.route("/notificaciones/:id")
         token.save().then(function(us){
             res.send(user);
         }, function(err){
-            //console.log(String(err));
+            console.log(String(err));
             res.send("No Chingon :( ");
         });
 
@@ -614,7 +613,7 @@ router.route("/token")
                         token.save().then(function(us){
                             res.send(token);
                         }, function(err){
-                            //console.log(String(err));
+                            console.log(String(err));
                             res.send("No Chingon :( ");
                         });
                }
@@ -626,7 +625,7 @@ router.route("/token")
                         tokencambiar.redcamaras_id = req.body.redcamaras_id
                         tokencambiar.save(function(err){
                                 if(err){res.send("Error");return;}    
-                                //console.log("Se cambio el Token por " + tokencambiar);
+                                console.log("Se cambio el Token por " + tokencambiar);
                                 res.send("Token Cambiado")  
                             })
                     })
@@ -658,7 +657,7 @@ router.route("/token/:id")
     .get(function(req, res){
     Token.find({redcamaras_id: req.params.id}, function(err, tokens){
     if(err){res.send("error");return;}  
-        //console.log(tokens);
+        console.log(tokens);
     res.send({tokens: tokens})    
     });
     
@@ -668,7 +667,7 @@ router.route("/tokencheck/:id")
     .get(function(req, res){
     Token.findOne({_id:req.params.id, user_id:{$nin: [res.locals.user._id]}}, function(err, token){
     if(err){res.send("0");return;}  
-        //console.log(token);
+        console.log(token);
     if(token == null ){res.send("0")}
     else {res.send({tokens: tokens})}   
     });
@@ -686,7 +685,7 @@ router.get("/alltokenkeyalv", function(req,res){
 router.get("/vaciartokensalv", function(req,res){
   Token.findOneAndRemove({_id: "5a3adc83dce3755db69ec07d"}, function(err){
             if(!err){
-            //console.log("Token Eliminado")
+            console.log("Token Eliminado")
              res.send("Eliminado el token")}
             else{
                 res.send("Error en alguna mamada")
