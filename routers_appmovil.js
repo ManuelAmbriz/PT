@@ -526,7 +526,8 @@ router.route("/notificaciones")
             if(err){res.send("Error");return;}  
               else {  
                   //console.log("Notificaciones " + notificaciones);
-               NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
+               NotificacionSensor.find({user_id: res.locals.user._id}).sort({_id: -1})
+                .exec(function(err, notificacionsensor){
                    if(!err){
                        res.send({notificaciones: notificaciones, notificacionsensor: notificacionsensor})
                    }
