@@ -203,7 +203,7 @@ router.route("/solicitud/:id")
     
 })
     .put(function(req,res){
-    console.log("AceptarSolicitud")
+    console.log("AceptarSolicitud")  
         SolicitudUnirse.findById(req.params.id)
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
