@@ -203,7 +203,7 @@ router.route("/solicitud/:id")
     
 })
     .put(function(req,res){
-    console.log("AceptarSolicitud")  
+    console.log("AceptarSolicitud")
         SolicitudUnirse.findById(req.params.id)
         .populate("user_id")// join user where user_id = user.usr_id
         .populate("redcamaras_id")
@@ -573,8 +573,11 @@ router.route("/notificaciones/:id")
 
 })
         .post(function(req,res){
-    console.log(req.params.id)
-        var notificaciones = new Notificaciones ({ titulo: req.body.titulo , user_id: res.locals.user._id, redcamaras_id: req.params.id, mensaje: req.body.mensaje
+        var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+        var f=new Date();
+        var fecha = f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " " + f.getHours + ":" + f.getMinutes
+        
+        var notificaciones = new Notificaciones ({ titulo: req.body.titulo , user_id: res.locals.user._id, redcamaras_id: req.params.id, mensaje: req.body.mensaje, fecha: fecha
          });
     
     notificaciones.save().then(function(us){
