@@ -666,7 +666,14 @@ router.route("/sensores")
                 }
                 else 
                     {
-                        res.send("Usuario ya con registrado en una Red o con una Solicitud Pendiente");
+                        
+                        Raspberry.find({user_id: res.locals.user._id})
+                            .populate("user_id")// join user where user_id = user.usr_id
+                            .exec(function(err, raspberry){
+                        if(err){res.redirect("/userapp");return;}  
+                        res.render("userapp/sensores/index", {raspberry: raspberry, hola : 'div class="alert alert-danger"', hola2: 'Terminal ya registrada por otro usuario'})    
+                        });
+                        
                     }
             });
 

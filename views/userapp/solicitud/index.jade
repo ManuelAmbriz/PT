@@ -87,7 +87,7 @@ head
                     p
                    | Se muestran las solicitudes solicitadas por usted
                 #{hola}
-                    | #{hola2}
+                    | #{hola2} 
             .row
               for sc in solicitudunirse
                if sc.user_id._id.toString() != sc.redcamaras_id.user_id.toString() && sc.estatus != "Aprobado"
