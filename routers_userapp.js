@@ -32,7 +32,7 @@ router.get("/redescamaras/new", function(req,res){
 router.route("/redescamaras/:id/users")
     .get(function(req,res){
     console.log(req.params.id)
-    SolicitudUnirse.find({estatus:"Aprobado", redcamaras_id: req.params.id})
+     SolicitudUnirse.find({estatus:"Aprobado", redcamaras_id: req.params.id, user_id:{$nin: [res.locals.user._id]}})
         .populate("redcamaras_id")
         .populate("user_id")
         .exec(function(err, solicitudunirse){
