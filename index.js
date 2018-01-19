@@ -80,7 +80,7 @@ app.post("/user" , function(req,res){
         if(user == ""){
             var user = new User ({nombre: req.body.nombre, correo: req.body.email, apellidopaterno:req.body.apellidopaterno, 
                                  apellidomaterno: req.body.apellidomaterno, contraseña: req.body.contraseña, 
-                                 password_confirmation: req.body.password_confirmation, redcamaras: req.body.redcamaras, rol: req.body.rol, domicilio: req.body.domicilio, 
+                                 password_confirmation: req.body.password_confirmation, redcamaras: req.body.redcamaras, rol: "Usuario", domicilio: req.body.domicilio, 
                                  });
             console.log(user.password_confirmation)
             /*user.save(function(err, user, 1){ // Se guardan los archivos dentro de l base de datos con save 
