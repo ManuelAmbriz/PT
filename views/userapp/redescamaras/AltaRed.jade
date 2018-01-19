@@ -65,8 +65,11 @@ head
                         li 
                             a(href="/userapp/solicitudes") Solicitudes Recibidas      
 
-                  li
+                  li.has-dropdown
                     a(href='/userapp/redescamaras/vercam') Ver Cámaras 
+                    ul.dropdown
+                        li 
+                            a(href="/userapp/notificaciones") Notificaciones 
     header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(../../images/img_4.jpg)')
       .overlay
       .gtco-container
@@ -117,7 +120,7 @@ head
                     input#participantes.form-control(type='text', placeholder='Número Máximo de Participantes', name='participantes', required='')
                 
                 .form-group
-                  input.btn.btn-primary(type='submit', value='Generar Registro y Comprobante', required='')
+                  input.btn.btn-primary(type='submit', value='Crear Nueva Red Vecinal', required='')
             .col-md-5.col-md-push-1.animate-box
               .gtco-contact-info
                 h3 Más Acciones 

@@ -8,7 +8,7 @@ var user_schema = new Schema({
     nombre: String, 
     apellidopaterno: String,
     apellidomaterno: String,
-    domiciolio: String, 
+    domicilio: String, 
     correo: String,
     contraseña: String,
     rol: String,

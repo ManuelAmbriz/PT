@@ -19,25 +19,27 @@ head
   meta(name='twitter:card', content='')
   link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,700', rel='stylesheet')
   // Animate.css
-  link(rel='stylesheet', href='../../css/animate.css')
+  link(rel='stylesheet', href='../../../ css/animate.css')
   // Icomoon Icon Fonts
-  link(rel='stylesheet', href='../../css/icomoon.css')
+  link(rel='stylesheet', href='../../../css/icomoon.css')
   // Themify Icons
-  link(rel='stylesheet', href='../../css/themify-icons.css')
+  link(rel='stylesheet', href='../../../css/themify-icons.css')
   // Bootstrap
-  link(rel='stylesheet', href='../../css/bootstrap.css')
+  link(rel='stylesheet', href='../../../css/bootstrap.css')
   // Magnific Popup
-  link(rel='stylesheet', href='../../css/magnific-popup.css')
+  link(rel='stylesheet', href='../../../css/magnific-popup.css')
   // Owl Carousel
-  link(rel='stylesheet', href='../../css/owl.carousel.min.css')
-  link(rel='stylesheet', href='../../css/owl.theme.default.min.css')
+  link(rel='stylesheet', href='../../../css/owl.carousel.min.css')
+  link(rel='stylesheet', href='../../../css/owl.theme.default.min.css')
   // Theme style
-  link(rel='stylesheet', href='../../css/style.css')
+  link(rel='stylesheet', href='../../../css/main.css')
+  link(rel='stylesheet', href='../../../css/style.css')
   // Modernizr JS
-  script(src='../../js/modernizr-2.6.2.min.js')
+  script(src='../../../js/modernizr-2.6.2.min.js')
+  script(src='../../socket.io/socket.io.js')
   // FOR IE9 below
   //
-    if lt IE 9script(src='../../js/respond.min.js')
+    if lt IE 9script(src='../../../js/respond.min.js')
 .gtco-loader
 #page
   .page-inner
@@ -46,7 +48,7 @@ head
         .row
           .col-sm-6.col-xs-12
             #gtco-logo
-              img.img-responsive(src='../../images/Logotipo11.png')
+              img.img-responsive(src='../../../images/Logotipo11.png')
           .col-xs-6.text-right.menu-1
             ul
                   li
@@ -63,14 +65,16 @@ head
                         li 
                             a(href="/userapp/solicitud") Mis Solicitudes 
                         li 
-                            a(href="/userapp/redescamaras/") Solicitudes Recibidas      
+                            a(href="/userapp/solicitudes") Solicitudes Recibidas      
 
                   li.has-dropdown
                     a(href='/userapp/redescamaras/vercam') Ver Cámaras 
                     ul.dropdown
                         li 
                             a(href="/userapp/notificaciones") Notificaciones 
-    header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(../../images/img_4.jpg)')
+                
+           
+    header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(../../../images/img_4.jpg)')
       .overlay
       .gtco-container
         .row
@@ -78,36 +82,28 @@ head
             .row.row-mt-15em
               .col-md-7.mt-text.animate-box(data-animate-effect='fadeInUp')
                 span.intro-text-small Administrador
-                h1 Ver Solicitud
-               
-    .gtco-section.border-bottom
-      .gtco-container
-        .row
-          .col-md-12.text-center.gtco-heading
-            h2 Nombre  
-            p
-              |  #{user.nombre} 
-        .row
-          .col-md-12
-          .feature-left.animate-box(data-animate-effect='fadeInLeft')
-              span.icon
-                i.icon-check
-              .feature-copy
-                h3 Apellido Paterno 
-                p #{user.apellidopaterno}
-            .feature-left.animate-box(data-animate-effect='fadeInLeft')
-              span.icon
-                i.icon-check
-              .feature-copy
-                h3 Apellido Materno 
-                p #{user.apellidomaterno}
-            .feature-left.animate-box(data-animate-effect='fadeInLeft')
-              span.icon
-                i.icon-check
-              .feature-copy
-                h3 Email 
-                p #{user.correo}
-            
+                h1 Usuarios Registrados en Red 
+                
+
+        
+    .gtco-section
+        .gtco-container
+            .row                
+               .col-md-8.col-md-offset-2.text-center.gtco-heading
+                h2 Usuarios Registrados en la Red 
+                     
+             .row
+             for sc in solicitudunirse
+               .col-lg-4.col-md-4.col-sm-6
+                 .fh5co-project-item
+                   .fh5co-text(Style="margin-top:20px")
+                     h2 #{sc.user_id.nombre}  #{sc.user_id.apellidopaterno}
+                     p Correo #{sc.user_id.correo} 
+                     if user_id == sc.redcamaras_id.user_id 
+                         form(action="/userapp/redescamarasd/#{sc.id}?_method=DELETE", method='post', class="link" )
+                            input.btn-default.btn-sm(type="submit", value="Eliminar")
+
+                 
     footer#gtco-footer(role='contentinfo')
           .gtco-container
             .row.row-p.b-md
@@ -132,19 +128,19 @@ head
       a.js-gotop(href='#')
         i.icon-arrow-up
     // jQuery
-    script(src='../../js/jquery.min.js')
+    script(src='../../../js/jquery.min.js')
     // jQuery Easing
-    script(src='../../js/jquery.easing.1.3.js')
+    script(src='../../../js/jquery.easing.1.3.js')
     // Bootstrap
-    script(src='../../js/bootstrap.min.js')
+    script(src='../../../js/bootstrap.min.js')
     // Waypoints
-    script(src='../../js/jquery.waypoints.min.js')
+    script(src='../../../js/jquery.waypoints.min.js')
     // Carousel
-    script(src='../../js/owl.carousel.min.js')
+    script(src='../../../js/owl.carousel.min.js')
     // countTo
-    script(src='../../js/jquery.countTo.js')
+    script(src='../../../js/jquery.countTo.js')
     // Magnific Popup
-    script(src='../../js/jquery.magnific-popup.min.js')
-    script(src='../../js/magnific-popup-options.js')
+    script(src='../../../js/jquery.magnific-popup.min.js')
+    script(src='../../../js/magnific-popup-options.js')
     // Main
-    script(src='../../js/main.js')
+    script(src='../../../js/main.js')

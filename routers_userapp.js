@@ -29,6 +29,33 @@ router.get("/redescamaras/new", function(req,res){
     
 });
 
+router.route("/redescamaras/:id/users")
+    .get(function(req,res){
+    console.log(req.params.id)
+    SolicitudUnirse.find({estatus:"Aprobado", redcamaras_id: req.params.id})
+        .populate("redcamaras_id")
+        .populate("user_id")
+        .exec(function(err, solicitudunirse){
+        if(err){res.redirect("/app");return}
+        res.render("userapp/redescamaras/user", {solicitudunirse:solicitudunirse, user_id: res.locals.user._id.toString()})
+        
+    })
+});
+
+router.route("/redescamarasd/:id")
+
+    .delete(function(req,res){
+        SolicitudUnirse.findOneAndRemove({_id: req.params.id}, function(err){
+            if(!err){
+             res.redirect("/userapp/redescamaras/")}
+            else{
+                res.redirect("/userapp/");
+            }
+                              
+        })
+    });
+
+
 router.get("/redescamaras/vercam", function(req,res){
     //res.render("userapp/redescamaras/AltaRed")
     console.log(req.params.id)
@@ -49,7 +76,9 @@ router.get("/redescamaras/vercamaras", function(req,res){
         .populate("user_id")
         .exec(function(err, solicitudunirse){
         if(err){res.redirect("/userapp");return}
-        res.redirect("/userapp/camaras/"+solicitudunirse.redcamaras_id._id)
+        if(solicitudunirse == null){res.redirect("/userapp/redescamaras/vercam")}
+        else{
+        res.redirect("/userapp/camaras/"+solicitudunirse.redcamaras_id._id)}
         //res.render("userapp/redescamaras/verred", {solicitudunirse:solicitudunirse, user_id: res.locals.user._id.toString()})
         
     })
@@ -139,7 +168,7 @@ router.route("/redescamaras")
         
     });
         redcamaras.save().then(function(us){
-       res.redirect("/userapp/redescamaras/"); 
+       res.redirect("/userapp/solicitud/"); 
     }, function(err){
         console.log(String(err));
         res.send("No Chingon :( " + err);

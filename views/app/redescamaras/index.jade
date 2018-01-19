@@ -66,6 +66,7 @@ head
 
                   li
                     a(href='/app/redescamaras') Ver Cámaras 
+                    
     header#gtco-header.gtco-cover.gtco-cover-sm(role='banner', style='background-image: url(../../images/img_4.jpg)')
       .overlay
       .gtco-container
@@ -96,7 +97,7 @@ head
                      p Creador #{redcamara.user_id.correo}
                      p Estatus #{redcamara.estatus}
                      a.btn-default.btn-sm(href='/app/redescamaras/#{redcamara._id}/users') Usuarios 
-                     a.btn-default.btn-sm(href='/app/redescamaras/#{redcamara._id}/edit') Editar 
+                     a.btn-default.btn-sm(href='/app/redescamaras/#{redcamara._id}/edit') Editar  
                      form(action="/app/redescamaras/#{redcamara.id}?_method=DELETE", method='post', class="link" )
                         input.btn-default.btn-sm(type="submit", value="Eliminar")
                     
