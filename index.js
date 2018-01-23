@@ -206,6 +206,7 @@ app.post("/sensorpir", function(req,res){
                                 if (c > 180) {// Si C es más grande a 3 min registra la notificación
                                     var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                                     var f=new Date();
+                                    f.setHours(f.getHours() - 8);
                                     var fechaver = f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " " + f.getHours()+ ":" + f.getMinutes()
                                     var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id,  user_id: raspberry.user_id, fechaver: fechaver});
                                     notificacion.save().then(function(us){
@@ -225,15 +226,26 @@ app.post("/sensorpir", function(req,res){
                                     });
                                 }
                             } 
-                            else {
+                            else {// if es la primera notificación 
                                 var b = new Date();
                                 var bstring = b.toString(); 
                                 var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                                var f=new Date();
+                                var f = new Date();
+                                f.setHours(f.getHours() - 8);
                                 var fechaver = f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " " + f.getHours() + ":" + f.getMinutes()
-                                var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id, user_id: raspberry.user_id, fechaver: fechaver});
+                                var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id,  user_id: raspberry.user_id, fechaver: fechaver});
                                     notificacion.save().then(function(us){
-                                        //res.send(sensor)
+                                        console.log("UserId " + raspberry.user_id)
+                                        Token.find({user_id: raspberry.user_id}, function(err, tokens){ // Si se guardo exitosamente manda no
+                                            if(err){res.send("error")}
+                                            else {
+                                                for (var tok in tokens){
+                                                    console.log("Token a enviar " + tokens[tok].token)
+                                                    enviarnotif(tokens[tok].token, sensor.mensaje)
+                                                }   
+                                            }
+                                        })
+                                        
                                     }, function(err){
                                         res.send("Error");
                                     });

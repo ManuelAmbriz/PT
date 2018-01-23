@@ -528,7 +528,9 @@ router.route("/notificaciones")
             if(err){res.redirect("/userapp");return;}  
               else {  
                   //console.log("Notificaciones " + notificaciones);
-               NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
+               NotificacionSensor.find({user_id: res.locals.user._id})
+                  .sort({_id: -1})
+                  .exec(function(err, notificacionsensor){
                    if(!err){
                        res.render("userapp/notificaciones/index", {notificaciones: notificaciones, notificacionsensor: notificacionsensor})
                    }
@@ -537,7 +539,9 @@ router.route("/notificaciones")
             });
     }
         else{
-            NotificacionSensor.find({user_id: res.locals.user._id}, function(err, notificacionsensor){
+            NotificacionSensor.find({user_id: res.locals.user._id})
+                  .sort({_id: -1})
+                  .exec(function(err, notificacionsensor){
                 if(!err){
                     res.render("userapp/notificaciones/index", {notificaciones: [], notificacionsensor: notificacionsensor})
                 }
@@ -824,14 +828,14 @@ router.get("/allnotificacionessensoresalv", function(req, res){
 });
 
 router.get("/allnotificacionesalv", function(req, res){
-   Notificaciones.find({}, function(err,sensores){
+   NotificacionSensor.find({}, function(err,sensores){
        if(err){res.redirect("/userapp");return;}
        res.send(sensores)
    })  
 });
 
 router.get("/vaciarsensoressalv", function(req,res){
-  Sensor.find({}).remove(function(err){
+  NotificacionSensor.find({}).remove(function(err){
             if(!err){
             console.log("Token Eliminado")
              res.send("Eliminado el Sensor")}
