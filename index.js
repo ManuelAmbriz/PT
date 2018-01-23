@@ -231,7 +231,7 @@ app.post("/sensorpir", function(req,res){
                                 var bstring = b.toString(); 
                                 var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                                 var f = new Date();
-                                f.setHours(f.getHours() - 8);
+                                f.setHours(f.getHours() - 6);
                                 var fechaver = f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " " + f.getHours() + ":" + f.getMinutes()
                                 var notificacion = new NotificacionSensor({fecha: bstring , sensor_id: sensor._id, titulo: req.body._idsensor, mensaje: req.body.mensaje, raspberry_id: raspberry._id,  user_id: raspberry.user_id, fechaver: fechaver});
                                     notificacion.save().then(function(us){
