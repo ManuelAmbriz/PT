@@ -369,7 +369,7 @@ router.route("/user/:id")
 
 router.route("/user")
     .get(function(req, res){
-    User.find({}, function(err, user){
+    User.find({_id:{$nin: [res.locals.user._id]}}, function(err, user){
     if(err){res.redirect("/app");return;}    
     res.render("app/user/index", {user: user})    
     });
