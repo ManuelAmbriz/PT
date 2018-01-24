@@ -348,9 +348,14 @@ router.get("/camaras/new", function(req,res){
 //router.all("/camaras/:id*", camaras_finder)
 
 router.get("/camaras/:id/edit", function(req,res){
-
-    res.render("userapp/camaras/edit")   
-
+    Camaras.findById({_id: req.params.id})
+        .populate("user_id")// join user where user_id = user.usr_id
+        .populate("redcamaras_id")
+        .exec(function(err, camaras){
+        if(!err){
+            console.log(camaras)
+        res.render("userapp/camaras/edit", {camara: camaras})} 
+    });
 });
 
 router.route("/camaras/:id")
@@ -367,17 +372,21 @@ router.route("/camaras/:id")
 })
     .put(function(req,res){
 
-        //res.send(redcamaras) res.locals = {redcamaras:redcamaras}
-        res.locals.user.nombre= req.body.nombre; 
-        res.locals.user.apellidopaterno= req.body.apellidopaterno; 
-        res.locals.user.apellidomaterno= req.body.apellidomaterno; 
-        res.locals.user.correo= req.body.email; 
-        res.locals.user.contraseña= req.body.contraseña; 
-        res.locals.user.save().then(function(us){
-            res.render("userapp/camaras/show")  
-                    }, function(err){
-                        res.render("userapp/camaras/"+req.params.id+"/edit")  
-                     }); 
+       Camaras.findById(req.params.id)
+        .populate("user_id")// join user where user_id = user.usr_id
+        .populate("redcamaras_id")
+        .exec(function(err, camaras){
+            camaras.ip = req.body.ip;
+            camaras.numeroex = req.body.numeroex;
+            camaras.user_id = camaras.user_id;
+            camaras.redcamaras_id = camaras.redcamaras_id;
+            
+            camaras.save(function(err){
+                    if(err){res.redirect("/userapp");return;}    
+                    //console.log(solicitudunirse);
+                    res.redirect("/userapp/redescamaras/vercam")   
+                })
+        }) 
     
 })
     .delete(function(req,res){
@@ -444,7 +453,13 @@ router.get("/camaras/new", function(req,res){
 
 router.get("/camaras/:id/edit", function(req,res){
 
-    res.render("userapp/camaras/edit")   
+   Camaras.findById({_id: req.params.id})
+        .populate("redcamaras_id")
+        .populate("user_id")
+        .exec(function(err, camaras){
+       //console.log(camaras)
+        res.render("userapp/camaras/edit", {camara: camaras})   
+    }); 
 
 });
 
