@@ -76,28 +76,33 @@ app.get("/AltaRed", function(req,res){
     
 });
 app.post("/user" , function(req,res){
-    User.find({correo: req.body.email}, function(err, user){
-        if(user == ""){
-            var user = new User ({nombre: req.body.nombre, correo: req.body.email, apellidopaterno:req.body.apellidopaterno, 
-                                 apellidomaterno: req.body.apellidomaterno, contraseña: req.body.contraseña, 
-                                 password_confirmation: req.body.password_confirmation, redcamaras: req.body.redcamaras, rol: "Usuario", domicilio: req.body.domicilio, 
-                                 });
-            console.log(user.password_confirmation)
-            /*user.save(function(err, user, 1){ // Se guardan los archivos dentro de l base de datos con save 
-                // a funcion save recibe como atributos un error, la tabla que va a guardar y l numero de tuplas que va a guardar 
-               if(err){console.log(String(err));}
-                res.send("Chingon");
-            });//despues de que guardes has lo que esta aqui adentro */
+    if(req.body.contraseña == req.body.password_confirmation){
+        User.find({correo: req.body.email}, function(err, user){
+            if(user == ""){
+                var user = new User ({nombre: req.body.nombre, correo: req.body.email, apellidopaterno:req.body.apellidopaterno, 
+                                     apellidomaterno: req.body.apellidomaterno, contraseña: req.body.contraseña, 
+                                     password_confirmation: req.body.password_confirmation, redcamaras: req.body.redcamaras, rol: "Usuario", domicilio: req.body.domicilio, 
+                                     });
+                console.log(user.password_confirmation)
+                /*user.save(function(err, user, 1){ // Se guardan los archivos dentro de l base de datos con save 
+                    // a funcion save recibe como atributos un error, la tabla que va a guardar y l numero de tuplas que va a guardar 
+                   if(err){console.log(String(err));}
+                    res.send("Chingon");
+                });//despues de que guardes has lo que esta aqui adentro */
 
-            user.save().then(function(us){
-                res.render("index", {hola : 'div class="alert alert-success"', hola2: 'Usuario Registrador Con Exito'})
-            }, function(err){
-                console.log(String(err));
-               res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Error'})
-            });
-        }
-        else {res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Error Correo ya registrado'})}
-    })
+                user.save().then(function(us){
+                    res.render("index", {hola : 'div class="alert alert-success"', hola2: 'Usuario Registrador Con Exito'})
+                }, function(err){
+                    console.log(String(err));
+                   res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Error'})
+                });
+            }
+            else {res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Error Correo ya registrado'})}
+        })
+    }
+    else {
+        res.render("index", {hola : 'div class="alert alert-danger"', hola2: 'Las contraseñas no coresponden'})
+    }
 });
 
 /*app.post("/altaredcamaras", function(req,res){
