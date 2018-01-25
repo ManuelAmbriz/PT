@@ -45,14 +45,25 @@ router.route("/redescamaras/:id/users")
 router.route("/redescamarasd/:id")
 
     .delete(function(req,res){
-        SolicitudUnirse.findOneAndRemove({_id: req.params.id}, function(err){
+        SolicitudUnirse.findOne({_id:req.params.id}, function(err, solicitud){
             if(!err){
-             res.redirect("/userapp/redescamaras/")}
-            else{
-                res.redirect("/userapp/");
+                Camara.find({user_id: solicitud.user_id}).remove(function(err){
+                    if(!err){
+                        SolicitudUnirse.findOneAndRemove({_id: req.params.id}, function(err){
+                            if(!err){
+                                Camaras.find({user_id: res.locals.user._id })
+                             res.redirect("/userapp/redescamaras/")}
+                            else{
+                                res.redirect("/userapp/");
+                            }
+
+                        })
+                    }
+                })
             }
-                              
+            
         })
+        
     });
 
 
