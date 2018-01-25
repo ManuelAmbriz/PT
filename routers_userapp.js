@@ -47,7 +47,7 @@ router.route("/redescamarasd/:id")
     .delete(function(req,res){
         SolicitudUnirse.findOne({_id:req.params.id}, function(err, solicitud){
             if(!err){
-                Camara.find({user_id: solicitud.user_id}).remove(function(err){
+                Camaras.find({user_id: solicitud.user_id}).remove(function(err){
                     if(!err){
                         SolicitudUnirse.findOneAndRemove({_id: req.params.id}, function(err){
                             if(!err){
