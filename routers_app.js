@@ -291,24 +291,58 @@ router.route("/user/:id")
         if(!err){
             Notificaciones.find({user_id: req.params.id}).remove(function(err){
                 if(!err){
-                    RedCamaras.find({user_id: req.params.id}).remove(function(err){
+                    RedCamaras.findOne({user_id: req.params.id}, function(err, redcamara){
                         if(!err){
-                            SolicitudUnirse.find({user_id: req.params.id}).remove(function(err){
+                            if(redcamara != null){
+                            SolicitudUnirse.find({redcamaras_id: redcamara._id}).remove(function(err){
                                 if(!err){
-                                    Token.find({user_id: req.params.id}).remove(function(err){
+                                    RedCamaras.find({user_id: req.params.id}).remove(function(err){
                                         if(!err){
-                                            User.findOneAndRemove({_id: req.params.id}, function(err){
-                                            if(!err){
-                                             res.redirect("/app/user/")}
-                                            else{
-                                                res.redirect("/app/user/show/"+req.params.id);
-                                            }
+                                            SolicitudUnirse.find({user_id: req.params.id}).remove(function(err){
+                                                if(!err){
+                                                    Token.find({user_id: req.params.id}).remove(function(err){
+                                                        if(!err){
+                                                            User.findOneAndRemove({_id: req.params.id}, function(err){
+                                                            if(!err){
 
-                                        }) 
+                                                             res.redirect("/app/user/")}
+                                                            else{
+                                                                res.redirect("/app/user/show/"+req.params.id);
+                                                            }
+
+                                                        }) 
+                                                        }
+                                                    })
+                                                }
+                                            })
                                         }
                                     })
                                 }
-                            })
+                            }) 
+                            }
+                            else {
+                                RedCamaras.find({user_id: req.params.id}).remove(function(err){
+                                        if(!err){
+                                            SolicitudUnirse.find({user_id: req.params.id}).remove(function(err){
+                                                if(!err){
+                                                    Token.find({user_id: req.params.id}).remove(function(err){
+                                                        if(!err){
+                                                            User.findOneAndRemove({_id: req.params.id}, function(err){
+                                                            if(!err){
+
+                                                             res.redirect("/app/user/")}
+                                                            else{
+                                                                res.redirect("/app/user/show/"+req.params.id);
+                                                            }
+
+                                                        }) 
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                            }
                         }
                     })
                 }
@@ -456,6 +490,8 @@ router.route("/redcamaradeletependejodiego")
    })
 });
 
+
+router.get("/alvtodaslassolicitudes")
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = router;
