@@ -304,12 +304,19 @@ router.route("/user/:id")
                                                         if(!err){
                                                             User.findOneAndRemove({_id: req.params.id}, function(err){
                                                             if(!err){
-
-                                                             res.redirect("/app/user/")}
-                                                            else{
-                                                                res.redirect("/app/user/show/"+req.params.id);
+                                                              Raspberry.find({user_id: req.params.id}).remove(function(err){
+                                                                  if(!err){
+                                                                  NotificacionSensor.find({user_id: req.params.id}).remove(function(err){
+                                                                      if(!err){
+                                                                          res.redirect("/app/user/")
+                                                                      }
+                                                                      else{
+                                                                        res.redirect("/app/user/show/"+req.params.id);
+                                                                        }
+                                                                      })
+                                                                 }
+                                                              })      
                                                             }
-
                                                         }) 
                                                         }
                                                     })
@@ -329,12 +336,19 @@ router.route("/user/:id")
                                                         if(!err){
                                                             User.findOneAndRemove({_id: req.params.id}, function(err){
                                                             if(!err){
-
-                                                             res.redirect("/app/user/")}
-                                                            else{
-                                                                res.redirect("/app/user/show/"+req.params.id);
+                                                              Raspberry.find({user_id: req.params.id}).remove(function(err){
+                                                                  if(!err){
+                                                                  NotificacionSensor.find({user_id: req.params.id}).remove(function(err){
+                                                                      if(!err){
+                                                                          res.redirect("/app/user/")
+                                                                      }
+                                                                      else{
+                                                                        res.redirect("/app/user/show/"+req.params.id);
+                                                                        }
+                                                                      })
+                                                                 }
+                                                              })      
                                                             }
-
                                                         }) 
                                                         }
                                                     })
@@ -489,6 +503,8 @@ router.route("/redcamaradeletependejodiego")
        if(!err){res.send("Diego tan wey")}
    })
 });
+
+router.get("allras")
 
 
 router.get("/alvtodaslassolicitudes")
