@@ -124,7 +124,7 @@ router.route("/redescamaras/:id")
 
 router.route("/redescamaras")
     .get(function(req, res){
-    RedCamaras.find({})
+    RedCamaras.find({estatus:"Aprobado"})
     .populate("user_id")                
     .exec(function(err, redcamaras){
     if(err){res.redirect("/app");return;}    
