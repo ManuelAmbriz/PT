@@ -24,6 +24,8 @@ var Sensor = require("./models/sensores").Sensor;
 var NotificacionSensor = require("./models/notificacionessensores").Notificacionessensores
 var Token = require("./models/token").Token
 
+var Clabe_banks = require("./models/clabe_bank").Clabe_banks
+
 //var cliente = redis.createClient();
 
 const port = process.env.PORT || 3000;
@@ -67,6 +69,7 @@ app.set("view engine", "jade");
 app.get("/", function(req,res){
      res.render("index")
 });
+
 app.get("/AltaRed", function(req,res){
     User.find(function(err,doc){ // Si uno de los datos no viene nulo haz el doc 
         //console.log(doc);
@@ -100,20 +103,7 @@ app.post("/user" , function(req,res){
     })
 });
 
-/*app.post("/altaredcamaras", function(req,res){
-    
-    var redcamaras = new RedCamaras ({ calle: req.body.calle, numeomax: req.body.numeomax, numeromin: req.body.numeromin, 
-                                      colonia: req.body.colonia, ciudad: req.body.ciudad, estado: req.body.estado, cp: req.body.cp, participantes: req.body.participantes
-        
-    });
-        redcamaras.save().then(function(us){
-       res.send("Chingon"); 
-    }, function(err){
-        console.log(String(err));
-        res.send("No Chingon :( ");
-    });
-    
-});*/  
+
 
 
 
@@ -163,6 +153,31 @@ app.get("/pruebaalv", function(req,res){
 
            }
     })
+});
+
+
+app.post("/getBankByClabe", function(req,res){
+    Clabe_banks.find({}, function(err, clabe_banks){ // Si se guardo exitosamente manda no
+        if(err){res.send("error")}
+            else {
+                res.send({qpay_response: "true",
+                        qpay_code: "000",
+                        qpay_description: "Aprobada",
+                        qpay_object: clabe_banks})
+           } 
+    })
+});
+
+app.post("/clabe_banks", function(req,res){
+    
+    var cable_bank = new Clabe_banks ({ clabe: req.body.clabe, banco: req.body.banco});
+        cable_bank.save().then(function(us){
+       res.send("Chingon"); 
+    }, function(err){
+        console.log(String(err));
+        res.send("No Chingon :( ");
+    });
+    
 });
 
 
