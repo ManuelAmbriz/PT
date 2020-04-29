@@ -1,11 +1,11 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-mongoose.connect("mongodb+srv://mambriz:huevosMongo17@cluster0-9mnx9.mongodb.net/test?retryWrites=true&w=majority");
+mongoose.connect("mongodb://root:root@ds135537.mlab.com:35537/pt");  // coneccion a base de datos 
 
 var clabe_banks_schema = new Schema({
-    clabe: String,
-    bank: String,
-    
+    key: String,
+    name: String,
+    shortname : String
 });
 
 

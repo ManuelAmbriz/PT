@@ -157,7 +157,9 @@ app.get("/pruebaalv", function(req,res){
 
 
 app.post("/getBankByClabe", function(req,res){
-    Clabe_banks.find({}, function(err, clabe_banks){ // Si se guardo exitosamente manda no
+    console.log(req);
+
+    Clabe_banks.find({key: req.body.clabe.substring(0, 3)}, function(err, clabe_banks){
         if(err){res.send("error")}
             else {
                 res.send({qpay_response: "true",
