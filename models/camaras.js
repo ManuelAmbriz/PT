@@ -6,7 +6,7 @@ var camaras_schema = new Schema({
     ip: String,
     numeroex: String,
     user_id: {type: Schema.Types.ObjectId, ref: "User"},
-    redcamaras_id:{type: Schema.Types.ObjectId, ref: "RedCamaras"}
+    redcamaras_id:{type: Schema.Types.ObjectId, ref: "RedCamaras"} 
     
 });
 
