@@ -13,4 +13,4 @@ var camaras_schema = new Schema({
 
 var Camaras = mongoose.model("Camaras", camaras_schema); // model es el contructor // nombre de la collecion y luego el esquema 
 
-module.exports.Camaras= Camaras;  // exportar funciones metodos vaiables 
+module.exports.Camaras= Camaras;  // exportar funciones metodos vaiables  
